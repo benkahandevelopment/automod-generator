@@ -4,11 +4,16 @@
     <title>Automod Builder</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/theme-cosmo.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-tagsinput.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/custom.css" />
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-tagsinput.min.js"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script type="text/javascript" src="js/custom.js"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -36,18 +41,354 @@
         <!-- modals -->
         <!-- modal-new-rule -->
         <div class="modal fade" id="modal-new-rule" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="modal-title">New Rule</div>
                         <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     </div>
                     <div class="modal-body">
+                        <form>
+                            <!-- rule-title -->
+                            <div class="form-group check-cont" data-valid="true" data-type="title">
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <label for="rule-title">Rule Title</label>
+                                <input type="text" class="form-control" name="title" id="rule-title" placeholder="Enter a descriptive title" value="Rule Title" data-check />
+                                <small class="form-text text-muted">This is a way for you to quickly find rules</small>
+                            </div>
+                            <!-- .rule-title -->
 
+                            <hr />
+
+                            <!-- thing-types -->
+                            <div class="form-group check-cont" data-valid="true" data-type="thing-type" data-required>
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <label>"Thing" Types</label>
+
+                                <div class="text-center">
+                                    <input type="checkbox" name="thing-types" id="thing-type-link" value="link" data-check checked />
+
+                                    <label class="col col-md-4 col-12 thing-type" for="thing-type-link">
+                                            <span class="validation-child selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                            <span class="validation-child not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                            <h1><i class="fas fa-link"></i></h1>Link Submissions
+                                            <small class="form-text text-muted">Apply this rule to all incoming links posted to your sub</small>
+                                    </label>
+
+                                    <input type="checkbox" name="thing-types" id="thing-type-text" value="text" data-check checked />
+
+                                    <label class="col col-md-4 col-12 thing-type" for="thing-type-text">
+                                            <span class="validation-child selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                            <span class="validation-child not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                            <h1><i class="far fa-file-alt"></i></h1>Text Submissions
+                                            <small class="form-text text-muted">Apply this rule to all incoming text posts submitted to your sub</small>
+                                    </label>
+
+                                    <input type="checkbox" name="thing-types" id="thing-type-comment" value="comment" data-check />
+
+                                    <label class="col col-md-4 col-12 thing-type" for="thing-type-comment">
+                                            <span class="validation-child selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                            <span class="validation-child not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                            <h1><i class="far fa-comment"></i></h1>Comment Submissions
+                                            <small class="form-text text-muted">Apply this rule to all incoming comments posted to your sub</small>
+                                    </label>
+
+                                </div>
+                                <small class="form-text text-muted">Select the submissions to which your rule should be applied</small>
+                            </div>
+                            <!-- .thing-types -->
+
+                            <hr />
+
+                            <!-- thing-matches -->
+                            <!-- thing-domains -->
+                            <div class="check-cont" data-valid="false" data-type="thing-domains">
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                <label for="thing-domains d-block">Domain Matches</label>
+
+                                <small class="text-muted">
+                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
+                                        <input type="checkbox" class="custom-control-input" id="thing-urls-inverse" data-check />
+                                        <label class="custom-control-label" for="thing-urls-inverse">Inverse</label>
+                                    </div>
+                                </small>
+
+                                <ul class="nav nav-tabs" id="tab-domains" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#tab-domains-simple" role="tab" data-tab="simple">Simple Match</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab-domains-urls" role="tab" data-tab="regex">RegEx Match</a>
+                                    </li>
+                                </ul>
+
+
+                                <div class="tab-content">
+                                    <!-- domains (regular) -->
+                                    <div id="tab-domains-simple" class="tab-pane show active" role="tabpanel">
+
+                                        <div class="form-group mt-2">
+                                            <input type="text" class="form-control" id="thing-domains" data-role="tagsinput" data-check />
+                                            <small class="form-text text-muted">The rule will be applied to domains which include the following keywords</small>
+                                            <small class="form-text text-muted">Enter domain match strings and press return, e.g. <code>example.com</code>, <code>m.foo.us</code>, <code>twitter</code></small>
+                                        </div>
+                                    </div>
+                                    <!-- .domains (regular) -->
+
+                                    <!-- domains (regex) -->
+                                    <div id="tab-domains-urls" class="tab-pane" role="tabpanel">
+                                        <div class="form-group mt-2">
+                                            <textarea class="form-control" id="thing-urls" rows=5 data-check ></textarea>
+                                            <small class="form-text text-muted">The rule will be applied to domains which include the following regular expressions</small>
+                                            <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>imgur\\.com/[A-Za-z0-9]{5,8}$</code></small>
+                                        </div>
+                                    </div>
+                                    <!-- .domains (regex) -->
+                                </div>
+                            </div>
+                            <!-- .thing-domains -->
+
+                            <hr />
+
+                            <!-- thing-title -->
+                            <div class="check-cont" data-valid="false" data-type="thing-titles">
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                <label for="thing-titles d-block">Title Matches</label>
+
+                                <small class="text-muted">
+                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
+                                        <input type="checkbox" class="custom-control-input" id="thing-titles-inverse" data-check />
+                                        <label class="custom-control-label" for="thing-titles-inverse">Inverse</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right mr-2">
+                                        <input type="checkbox" class="custom-control-input" id="thing-titles-casesensitive" data-check />
+                                        <label class="custom-control-label" for="thing-titles-casesensitive">Case-sensitive</label>
+                                    </div>
+                                    <div class="form-group mt-2">
+                                        <select class="form-control" id="thing-titles-matchtype" data-check >
+                                            <option value="includes-word">includes-word</option>
+                                            <option value="includes" selected>includes</option>
+                                            <option value="starts-with">starts-with</option>
+                                            <option value="ends-with">ends-with</option>
+                                            <option value="full-exact">full-exact</option>
+                                        </select>
+                                    </div>
+                                </small>
+
+                                <ul class="nav nav-tabs" id="tab-titles" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#tab-titles-simple" role="tab" data-tab="simple">Simple Match</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab-titles-regex" role="tab" data-tab="regex">RegEx Match</a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <!-- titles (regular) -->
+                                    <div id="tab-titles-simple" class="tab-pane show active" role="tabpanel">
+
+                                        <div class="form-group mt-2">
+                                            <input type="text" class="form-control" id="thing-titles" data-role="tagsinput" data-check />
+                                            <small class="form-text text-muted">The rule will be applied to titles which include the following keywords</small>
+                                            <small class="form-text text-muted">Enter title match strings and press return, e.g. <code>shitpost</code></small>
+                                        </div>
+                                    </div>
+                                    <!-- .titles (regular) -->
+
+                                    <!-- titles (regex) -->
+                                    <div id="tab-titles-regex" class="tab-pane" role="tabpanel">
+                                        <div class="form-group mt-2">
+                                            <textarea class="form-control" id="thing-titles-regex" rows=5 data-check ></textarea>
+                                            <small class="form-text text-muted">The rule will be applied to titles which include the following regular expressions</small>
+                                            <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>number \d will [fool|astound|astonish] [you|u]!+</code></small>
+                                        </div>
+                                    </div>
+                                    <!-- .titles (regex) -->
+                                </div>
+                            </div>
+                            <!-- .thing-title -->
+
+                            <hr />
+
+                            <!-- thing-body -->
+                            <div class="check-cont" data-valid="false" data-type="thing-bodies">
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                <label for="thing-bodies d-block">Body Matches</label>
+
+                                <small class="text-muted">
+                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
+                                        <input type="checkbox" class="custom-control-input" id="thing-bodies-inverse" data-check />
+                                        <label class="custom-control-label" for="thing-bodies-inverse">Inverse</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right mr-2">
+                                        <input type="checkbox" class="custom-control-input" id="thing-bodies-casesensitive" data-check />
+                                        <label class="custom-control-label" for="thing-bodies-casesensitive">Case-sensitive</label>
+                                    </div>
+                                    <div class="form-group mt-2">
+                                        <select class="form-control" id="thing-bodies-matchtype" data-check >
+                                            <option value="includes-word">includes-word</option>
+                                            <option value="includes" selected>includes</option>
+                                            <option value="starts-with">starts-with</option>
+                                            <option value="ends-with">ends-with</option>
+                                            <option value="full-exact">full-exact</option>
+                                        </select>
+                                    </div>
+                                </small>
+
+                                <ul class="nav nav-tabs" id="tab-bodies" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#tab-bodies-simple" role="tab" data-tab="simple">Simple Match</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab-bodies-regex" role="tab" data-tab="regex">RegEx Match</a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <!-- bodies (regular) -->
+                                    <div id="tab-bodies-simple" class="tab-pane show active" role="tabpanel">
+
+                                        <div class="form-group mt-2">
+                                            <input type="text" class="form-control" id="thing-bodies" data-role="tagsinput" data-check />
+                                            <small class="form-text text-muted">The rule will be applied to text posts or comments where the body includes the following keywords</small>
+                                            <small class="form-text text-muted">Enter body match strings and press return, e.g. <code>dae?</code>, <code>mmmm real good shiit</code></small>
+                                        </div>
+                                    </div>
+                                    <!-- .bodies (regular) -->
+
+                                    <!-- bodies (regex) -->
+                                    <div id="tab-bodies-regex" class="tab-pane" role="tabpanel">
+                                        <div class="form-group mt-2">
+                                            <textarea class="form-control" id="thing-bodies-regex" rows=5 data-check ></textarea>
+                                            <small class="form-text text-muted">The rule will be applied to post/comment text bodies which include the following regular expressions</small>
+                                            <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>number \d will [fool|astound|astonish] [you|u]!+</code></small>
+                                        </div>
+                                    </div>
+                                    <!-- .bodies (regex) -->
+                                </div>
+                            </div>
+                            <!-- .thing-body -->
+
+                            <!-- .thing-matches -->
+
+                            <hr />
+
+                            <!-- user matches -->
+
+                            <!-- author-usernames -->
+                            <div class="check-cont" data-valid="false" data-type="author-username">
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                <label for="author-usernames d-block">Username Matches</label>
+
+                                <small class="text-muted">
+                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
+                                        <input type="checkbox" class="custom-control-input" id="author-usernames-inverse" data-check />
+                                        <label class="custom-control-label" for="author-usernames-inverse">Inverse</label>
+                                    </div>
+                                </small>
+
+                                <ul class="nav nav-tabs" id="tab-usernames" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#tab-usernames-simple" role="tab" data-tab="simple">Simple Match</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab-usernames-urls" role="tab" data-tab="regex">RegEx Match</a>
+                                    </li>
+                                </ul>
+
+
+                                <div class="tab-content">
+                                    <!-- usernames (regular) -->
+                                    <div id="tab-usernames-simple" class="tab-pane show active" role="tabpanel">
+
+                                        <div class="form-group mt-2">
+                                            <input type="text" class="form-control" id="author-usernames" data-role="tagsinput" data-check />
+                                            <small class="form-text text-muted">The rule will be applied to usernames which include the following keywords</small>
+                                            <small class="form-text text-muted">Enter username match strings and press return, e.g. <code>69</code>, <code>gunner</code>, <code>spez</code></small>
+                                        </div>
+                                    </div>
+                                    <!-- .usernames (regular) -->
+
+                                    <!-- usernames (regex) -->
+                                    <div id="tab-usernames-urls" class="tab-pane" role="tabpanel">
+                                        <div class="form-group mt-2">
+                                            <textarea class="form-control" id="author-usernames-complex" rows=5 data-check ></textarea>
+                                            <small class="form-text text-muted">The rule will be applied to usernames which include the following regular expressions</small>
+                                            <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>69|8008|666$</code></small>
+                                        </div>
+                                    </div>
+                                    <!-- .usernames (regex) -->
+                                </div>
+                            </div>
+                            <!-- .author-usernames -->
+
+                            <hr />
+
+                            <!-- author-meta -->
+                            <label>Author Meta</label>
+                            <div class="check-cont d-flex align-items-center" data-type="author-karma">
+                                <div class="p-2 col-1">
+                                    <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                    <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                    <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                </div>
+                                <div class="p-2 col-3">Account Karma</div>
+                                <div class="p-2">
+                                    <select class="form-control" id="author-karma-logic" data-check >
+                                        <option value=">">></option>
+                                        <option value=">=">>=</option>
+                                        <option value="<="><=</option>
+                                        <option value="<"><</option>
+                                    </select>
+                                </div>
+                                <div class="p-2">
+                                    <input type="number" class="form-control" placeholder=0 id="author-karma-value" data-check />
+                                </div>
+                            </div>
+
+                            <div class="check-cont d-flex align-items-center" data-type="author-age">
+                                <div class="p-2 col-1">
+                                    <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                    <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                    <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                </div>
+                                <div class="p-2 col-3">Account Age (days)</div>
+                                <div class="p-2">
+                                    <select class="form-control" id="author-age-logic" data-check >
+                                        <option value=">">></option>
+                                        <option value=">=">>=</option>
+                                        <option value="<="><=</option>
+                                        <option value="<"><</option>
+                                    </select>
+                                </div>
+                                <div class="p-2">
+                                    <input type="number" class="form-control" placeholder=0 id="author-age-value" data-check />
+                                </div>
+                            </div>
+                            <!-- .author-meta -->
+
+                            <!-- .user matches -->
+
+                        </form>
+
+                        <hr />
+                        <label>Summary</label>
+                        <div class="container" id="summary"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close &amp; Delete</button>
-                        <button type="button" class="btn btn-success">Add Rule</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-success" id="add-rule">Add Rule</button>
                     </div>
                 </div>
             </div>
