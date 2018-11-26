@@ -109,9 +109,9 @@ function validate(type){
         }
     }
 
-    else if(type=="author-username"){
+    else if(type=="author-usernames"){
         if($("#tab-usernames a.active").attr("data-tab")=="regex"){
-            var v = $("#author-usernames-complex").val().trim();
+            var v = $("#author-usernames-regex").val().trim();
             if(v == "") return 2;
 
             var n = 0;
@@ -185,14 +185,18 @@ function createRule(){
             data.domains.regex = $("#thing-urls").val().trim().split(/\n/).map(Function.prototype.call, String.prototype.trim);
             output += "domain (regex): " + "[/"+data.domains.regex.join("/, /")+"/]";
             output += "\n";
-            conditions.push("on domains that match <span class='badge badge-primary'>"+data.domains.regex.length+" regular expression"+(data.domains.regex.length==1?"":"s")+"</span>");
+            conditions.push("on domains that "+
+                ($("#thing-urls-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
+                "match <span class='badge badge-primary'>"+data.domains.regex.length+" regular expression"+(data.domains.regex.length==1?"":"s")+"</span>");
         }
 
         else {
             data.domains.simple = $("#thing-domains").val().trim().split(",").map(Function.prototype.call, String.prototype.trim);
             output += "domain (includes): " + JSON.stringify(data.domains.simple);
             output += "\n";
-            conditions.push("on domains that include <span class='badge badge-primary'>"+data.domains.simple.length+" keyword"+(data.domains.simple.length==1?"":"s")+"</span>");
+            conditions.push("on domains that "+
+                ($("#thing-urls-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
+                "include <span class='badge badge-primary'>"+data.domains.simple.length+" keyword"+(data.domains.simple.length==1?"":"s")+"</span>");
         }
 
         tmp = null;
@@ -212,14 +216,22 @@ function createRule(){
             console.log(data.titles.regex);
             output += ", regex): " + "[/"+data.titles.regex.join("/, /")+"/]";
             output += "\n";
-            conditions.push("with titles that match <span class='badge badge-primary'>"+data.titles.regex.length+" regular expression"+(data.titles.regex.length==1?"":"s")+"</span>");
+            conditions.push("with titles that "+
+                ($("#thing-titles-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
+                "<span class='badge badge-secondary'>"+data.titles.matchtype+'</span> '+
+                "<span class='badge badge-primary'>"+data.titles.regex.length+" regular expression"+(data.titles.regex.length==1?"":"s")+"</span> "+
+                (data.titles.casesensitive ? "<span class='badge badge-secondary'>(case sensitive)</span>" : ""));
         }
 
         else {
             data.titles.simple = $("#thing-titles").val().trim().split(",").map(Function.prototype.call, String.prototype.trim);
             output += "): " + JSON.stringify(data.titles.simple);
             output += "\n";
-            conditions.push("with titles that include <span class='badge badge-primary'>"+data.titles.simple.length+" keyword"+(data.titles.simple.length==1?"":"s")+"</span>");
+            conditions.push("with titles that "+
+                ($("#thing-titles-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
+                "<span class='badge badge-secondary'>"+data.titles.matchtype+'</span> '+
+                "<span class='badge badge-primary'>"+data.titles.simple.length+" keyword"+(data.titles.simple.length==1?"":"s")+"</span> "+
+                (data.titles.casesensitive ? "<span class='badge badge-secondary'>(case sensitive)</span>" : ""));
         }
 
         tmp = null;
@@ -232,26 +244,94 @@ function createRule(){
         data.bodies.casesensitive = $("#thing-bodies-casesensitive").prop("checked");
 
         output += $("#thing-bodies-inverse").prop("checked") ? "~" : "";
-        output += "title (" + data.bodies.matchtype + (data.bodies.casesensitive ? ", case-sensitive" : "");
+        output += "body (" + data.bodies.matchtype + (data.bodies.casesensitive ? ", case-sensitive" : "");
 
         if($("#tab-bodies a.active").attr("data-tab")=="regex"){
             data.bodies.regex = $("#thing-bodies-regex").val().trim().split(/\n/).map(Function.prototype.call, String.prototype.trim);
             output += ", regex): " + "[/"+data.bodies.regex.join("/, /")+"/]";
             output += "\n";
-            conditions.push("whose body texts match <span class='badge badge-primary'>"+data.bodies.regex.length+" regular expression"+(data.bodies.regex.length===1?"":"s")+"</span>");
+            conditions.push("whose body texts "+
+                ($("#thing-bodies-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
+                "<span class='badge badge-secondary'>"+data.bodies.matchtype+'</span> '+
+                "<span class='badge badge-primary'>"+data.bodies.regex.length+" regular expression"+(data.bodies.regex.length===1?"":"s")+"</span> "+
+                (data.bodies.casesensitive ? "<span class='badge badge-secondary'>(case sensitive)</span>" : ""));
         }
 
         else {
             data.bodies.simple = $("#thing-bodies").val().trim().split(",").map(Function.prototype.call, String.prototype.trim);
             output += "): " + JSON.stringify(data.bodies.simple);
             output += "\n";
-            conditions.push("whose body texts contain <span class='badge badge-primary'>"+data.bodies.simple.length+" keyword"+(data.bodies.simple.length===1?"":"s")+"</span>");
+            conditions.push("whose body texts "+
+                ($("#thing-bodies-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
+                "<span class='badge badge-secondary'>"+data.bodies.matchtype+'</span> '+
+                "<span class='badge badge-primary'>"+data.bodies.simple.length+" keyword"+(data.bodies.simple.length===1?"":"s")+"</span> "+
+                (data.bodies.casesensitive ? "<span class='badge badge-secondary'>(case sensitive)</span>" : ""));
         }
 
         tmp = null;
     }
 
-    $("#summary").html(conditions.join("&nbsp;"));
+    //author meta
+    if($(".check-cont[data-type=author-usernames]").attr("data-valid")==1
+        ||$(".check-cont[data-type=author-karma]").attr("data-valid")==1
+        ||$(".check-cont[data-type=author-age]").attr("data-valid")==1){
+        data.author = {};
+        output += "author:\n";
+
+        //author usernames
+        if($(".check-cont[data-type=author-usernames]").attr("data-valid")==1){
+            data.author.usernames = {};
+            data.author.usernames.matchtype = $("#author-usernames-matchtype").val();
+
+            output += "\t"+($("#author-usernames-inverse").prop("checked") ? "~" : "");
+            output += "name (" + data.author.usernames.matchtype;
+
+            if($("#tab-usernames a.active").attr("data-tab")=="regex"){
+                data.author.usernames.regex = $("#author-usernames-regex").val().trim().split(/\n/).map(Function.prototype.call, String.prototype.trim);
+                output += ", regex): " + "[/"+data.author.usernames.regex.join("/, /")+"/]";
+                output += "\n";
+                conditions.push("with usernames that "+
+                    ($("#thing-usernames-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
+                    "<span class='badge badge-secondary'>"+data.author.usernames.matchtype+'</span> '+
+                    "<span class='badge badge-primary'>"+data.author.usernames.regex.length+" regular expression"+(data.author.usernames.regex.length==1?"":"s")+"</span>");
+            }
+
+            else {
+                data.author.usernames.simple = $("#author-usernames").val().trim().split(",").map(Function.prototype.call, String.prototype.trim);
+                output += "): " + JSON.stringify(data.author.usernames.simple);
+                output += "\n";
+                conditions.push("with usernames that "+
+                    ($("#thing-usernames-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
+                    "<span class='badge badge-secondary'>"+data.author.usernames.matchtype+'</span> '+
+                    "<span class='badge badge-primary'>"+data.author.usernames.simple.length+" keyword"+(data.author.usernames.simple.length==1?"":"s")+"</span>");
+            }
+
+            tmp = null;
+
+        }
+
+        //author Karma
+        if($(".check-cont[data-type=author-karma]").attr("data-valid")==1){
+            data.author.karma = {};
+            data.author.karma.logic = $("#author-karma-logic").val();
+            data.author.karma.value = $("#author-karma-value").val();
+
+            output += "\tcombined_karma: \""+data.author.karma.logic+" "+data.author.karma.value+"\"\n";
+            conditions.push("where the author's karma matches <span class='badge badge-primary'>"+data.author.karma.logic+" "+data.author.karma.value+"</span>");
+        }
+
+        //author age
+        if($(".check-cont[data-type=author-age]").attr("data-valid")==1){
+            data.author.age = {};
+            data.author.age.logic = $("#author-age-logic").val();
+            data.author.age.value = $("#author-age-value").val();
+
+            output += "\tcombined_age: \""+data.author.age.logic+" "+data.author.age.value+"\"\n";
+            conditions.push("where the author's account age matches <span class='badge badge-primary'>"+data.author.age.logic+" "+data.author.age.value+"</span>");
+        }
+    }
+
+    $("#summary").html(conditions.join("<br>"));
     console.log(output);
 }
 

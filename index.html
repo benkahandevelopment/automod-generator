@@ -170,16 +170,17 @@
                                         <input type="checkbox" class="custom-control-input" id="thing-titles-casesensitive" data-check />
                                         <label class="custom-control-label" for="thing-titles-casesensitive">Case-sensitive</label>
                                     </div>
-                                    <div class="form-group mt-2">
-                                        <select class="form-control" id="thing-titles-matchtype" data-check >
-                                            <option value="includes-word">includes-word</option>
-                                            <option value="includes" selected>includes</option>
-                                            <option value="starts-with">starts-with</option>
-                                            <option value="ends-with">ends-with</option>
-                                            <option value="full-exact">full-exact</option>
-                                        </select>
-                                    </div>
                                 </small>
+
+                                <div class="form-group mt-2">
+                                    <select class="form-control" id="thing-titles-matchtype" data-check >
+                                        <option value="includes-word">includes-word</option>
+                                        <option value="includes" selected>includes</option>
+                                        <option value="starts-with">starts-with</option>
+                                        <option value="ends-with">ends-with</option>
+                                        <option value="full-exact">full-exact</option>
+                                    </select>
+                                </div>
 
                                 <ul class="nav nav-tabs" id="tab-titles" role="tablist">
                                     <li class="nav-item">
@@ -233,16 +234,17 @@
                                         <input type="checkbox" class="custom-control-input" id="thing-bodies-casesensitive" data-check />
                                         <label class="custom-control-label" for="thing-bodies-casesensitive">Case-sensitive</label>
                                     </div>
-                                    <div class="form-group mt-2">
-                                        <select class="form-control" id="thing-bodies-matchtype" data-check >
-                                            <option value="includes-word">includes-word</option>
-                                            <option value="includes" selected>includes</option>
-                                            <option value="starts-with">starts-with</option>
-                                            <option value="ends-with">ends-with</option>
-                                            <option value="full-exact">full-exact</option>
-                                        </select>
-                                    </div>
                                 </small>
+
+                                <div class="form-group mt-2">
+                                    <select class="form-control" id="thing-bodies-matchtype" data-check >
+                                        <option value="includes-word">includes-word</option>
+                                        <option value="includes" selected>includes</option>
+                                        <option value="starts-with">starts-with</option>
+                                        <option value="ends-with">ends-with</option>
+                                        <option value="full-exact">full-exact</option>
+                                    </select>
+                                </div>
 
                                 <ul class="nav nav-tabs" id="tab-bodies" role="tablist">
                                     <li class="nav-item">
@@ -285,7 +287,7 @@
                             <!-- user matches -->
 
                             <!-- author-usernames -->
-                            <div class="check-cont" data-valid="false" data-type="author-username">
+                            <div class="check-cont" data-valid="false" data-type="author-usernames">
                                 <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
                                 <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
                                 <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
@@ -298,12 +300,22 @@
                                     </div>
                                 </small>
 
+                                <div class="form-group mt-2">
+                                    <select class="form-control" id="author-usernames-matchtype" data-check >
+                                        <option value="includes-word">includes-word</option>
+                                        <option value="includes" selected>includes</option>
+                                        <option value="starts-with">starts-with</option>
+                                        <option value="ends-with">ends-with</option>
+                                        <option value="full-exact">full-exact</option>
+                                    </select>
+                                </div>
+
                                 <ul class="nav nav-tabs" id="tab-usernames" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" data-toggle="tab" href="#tab-usernames-simple" role="tab" data-tab="simple">Simple Match</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#tab-usernames-urls" role="tab" data-tab="regex">RegEx Match</a>
+                                        <a class="nav-link" data-toggle="tab" href="#tab-usernames-regex" role="tab" data-tab="regex">RegEx Match</a>
                                     </li>
                                 </ul>
 
@@ -321,9 +333,9 @@
                                     <!-- .usernames (regular) -->
 
                                     <!-- usernames (regex) -->
-                                    <div id="tab-usernames-urls" class="tab-pane" role="tabpanel">
+                                    <div id="tab-usernames-regex" class="tab-pane" role="tabpanel">
                                         <div class="form-group mt-2">
-                                            <textarea class="form-control" id="author-usernames-complex" rows=5 data-check ></textarea>
+                                            <textarea class="form-control" id="author-usernames-regex" rows=5 data-check ></textarea>
                                             <small class="form-text text-muted">The rule will be applied to usernames which include the following regular expressions</small>
                                             <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>69|8008|666$</code></small>
                                         </div>
