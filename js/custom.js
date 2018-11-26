@@ -1,3 +1,41 @@
+/** TODO
+
+conditions
+---
+reports
+    int>0
+body_longer_than
+    int>0
+body_shorter_than
+    int>0
+is_original_content (post only)
+    bool
+is_top_level (comment only)
+    bool
+
+actions
+---
+set_flair
+    text (single text)
+    css_class (single text)
+    template_id (single [a-zA-Z0-9\-])
+set_sticky
+    priority (int)
+set_nsfw
+    bool
+set_spoiler
+    bool
+set_contest_mode
+    bool
+set_original_content
+    bool
+set_suggested_sort
+    select (best, new, qa, top, contraversial, hot, old, random, blank)
+set_locked
+    bool
+
+**/
+
 /* Custom JS */
 $(function(){
     $("[data-check]").change(function(){ createRule(); });
@@ -9,7 +47,7 @@ $(function(){
 function checkValidate(){
     var errs = [];
 
-    $(".check-cont").each(function(){
+    $(".check-cont:not(.bool)").each(function(){
         var $cont = $(this);
         var type = $cont.data("type");
         var valid = validate(type);
@@ -42,7 +80,7 @@ function validate(type){
 
     else if(type=="thing-domains"){
         if($("#tab-domains a.active").attr("data-tab")=="regex"){
-            var v = $("#thing-urls").val().trim();
+            var v = $("#thing-domains-regex").val().trim();
             if(v == "") return 2;
 
             var n = 0;
@@ -55,6 +93,29 @@ function validate(type){
         } else {
             var n = 0;
             var v = $("#thing-domains").val().trim();
+            if(v == "") return 2;
+
+            var arr = v.split(",").map(Function.prototype.call, String.prototype.trim);
+            arr.forEach(function(a,b){ if(!validateURL(a)) n++; });
+            valid = n === 0 ? 1 : 0;
+        }
+    }
+
+    else if(type=="thing-urls"){
+        if($("#tab-urls a.active").attr("data-tab")=="regex"){
+            var v = $("#thing-urls-regex").val().trim();
+            if(v == "") return 2;
+
+            var n = 0;
+
+            var arr = v.split(/\n/).map(Function.prototype.call, String.prototype.trim);
+            arr.forEach(function(a,b){
+                try { new RegExp(a); } catch(e) { n++ };
+                valid = n === 0 ? 1 : 0;
+            });
+        } else {
+            var n = 0;
+            var v = $("#thing-urls").val().trim();
             if(v == "") return 2;
 
             var arr = v.split(",").map(Function.prototype.call, String.prototype.trim);
@@ -146,6 +207,24 @@ function validate(type){
         valid = Number.isInteger(parseInt(v)) && parseInt(v) > 0 ? 1 : 0;
     }
 
+    else if(type=="actions-action"){
+        var v = $("#actions-action").val();
+        var a = ["approve", "remove", "spam", "filter", "report"];
+        valid = $.inArray(v, a) > -1 ? 1 : 0;
+    }
+
+    else if(type=="actions-reason"){
+        var v = $("#actions-reason").val();
+        if(v.length < 1 || v == "" ) return 2;
+        valid = v.length > 0 && v.indexOf("#") == -1 ? 1 : 0;
+    }
+
+    else if(type=="actions-comment"||type=="actions-modmail"||type=="actions-message"){
+        var v = $("#"+type).val();
+        if(v.length < 1 || v == "" ) return 2;
+        valid = v.length > 0 ? 1 : 0;
+    }
+
     return valid;
 }
 
@@ -154,7 +233,12 @@ function createRule(){
 
     var output = "";
     var conditions = [];
+    var actions = [];
     var data = {};
+
+
+    /* Conditions --------*/
+
 
     //title
     if($(".check-cont[data-type=title]").attr("data-valid")==0) return false;
@@ -179,14 +263,14 @@ function createRule(){
     //domains
     if($(".check-cont[data-type=thing-domains]").attr("data-valid")==1){
         data.domains = {};
-        output += $("#thing-urls-inverse").prop("checked") ? "~" : "";
+        output += $("#thing-domains-inverse").prop("checked") ? "~" : "";
 
         if($("#tab-domains a.active").attr("data-tab")=="regex"){
-            data.domains.regex = $("#thing-urls").val().trim().split(/\n/).map(Function.prototype.call, String.prototype.trim);
+            data.domains.regex = $("#thing-domains-regex").val().trim().split(/\n/).map(Function.prototype.call, String.prototype.trim);
             output += "domain (regex): " + "[/"+data.domains.regex.join("/, /")+"/]";
             output += "\n";
             conditions.push("on domains that "+
-                ($("#thing-urls-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
+                ($("#thing-domains-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
                 "match <span class='badge badge-primary'>"+data.domains.regex.length+" regular expression"+(data.domains.regex.length==1?"":"s")+"</span>");
         }
 
@@ -195,8 +279,34 @@ function createRule(){
             output += "domain (includes): " + JSON.stringify(data.domains.simple);
             output += "\n";
             conditions.push("on domains that "+
-                ($("#thing-urls-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
+                ($("#thing-domains-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
                 "include <span class='badge badge-primary'>"+data.domains.simple.length+" keyword"+(data.domains.simple.length==1?"":"s")+"</span>");
+        }
+
+        tmp = null;
+    }
+
+    //URLs
+    if($(".check-cont[data-type=thing-urls]").attr("data-valid")==1){
+        data.urls = {};
+        output += $("#thing-urls-inverse").prop("checked") ? "~" : "";
+
+        if($("#tab-urls a.active").attr("data-tab")=="regex"){
+            data.urls.regex = $("#thing-urls-regex").val().trim().split(/\n/).map(Function.prototype.call, String.prototype.trim);
+            output += "url (regex): " + "[/"+data.urls.regex.join("/, /")+"/]";
+            output += "\n";
+            conditions.push("on URLs that "+
+                ($("#thing-urls-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
+                "match <span class='badge badge-primary'>"+data.urls.regex.length+" regular expression"+(data.urls.regex.length==1?"":"s")+"</span>");
+        }
+
+        else {
+            data.urls.simple = $("#thing-urls").val().trim().split(",").map(Function.prototype.call, String.prototype.trim);
+            output += "url (includes): " + JSON.stringify(data.urls.simple);
+            output += "\n";
+            conditions.push("on URLs that "+
+                ($("#thing-urls-inverse").prop("checked") ? "<span class='badge badge-secondary'>don't</span> " : "")+
+                "include <span class='badge badge-primary'>"+data.urls.simple.length+" keyword"+(data.urls.simple.length==1?"":"s")+"</span>");
         }
 
         tmp = null;
@@ -272,10 +382,8 @@ function createRule(){
     }
 
     //author meta
-    if($(".check-cont[data-type=author-usernames]").attr("data-valid")==1
-        ||$(".check-cont[data-type=author-karma]").attr("data-valid")==1
-        ||$(".check-cont[data-type=author-age]").attr("data-valid")==1){
-        data.author = {};
+    data.author = {};
+    if($(".check-cont[data-type=author-usernames]").attr("data-valid")==1||$(".check-cont[data-type=author-karma]").attr("data-valid")==1||$(".check-cont[data-type=author-age]").attr("data-valid")==1){
         output += "author:\n";
 
         //author usernames
@@ -331,7 +439,95 @@ function createRule(){
         }
     }
 
-    $("#summary").html(conditions.join("<br>"));
+    //author bools
+    data.author.is_gold = $("#author-type-gold").prop("checked");
+    data.author.is_moderator = $("#author-type-mod").prop("checked");
+    if(data.author.is_gold || data.author.is_moderator){
+        if(data.author.is_gold){
+            output += "is_gold: true\n";
+            conditions.push("where the user <span class='badge badge-primary'>has reddit Gold</span>");
+        }
+
+        if(data.author.is_moderator){
+            output += "is_moderator: true\n";
+            conditions.push("where the user <span class='badge badge-primary'>is a moderator</span>");
+        }
+
+    }
+
+    /* Actions -----------*/
+
+    //action
+    if($(".check-cont[data-type=actions-action]").attr("data-valid")==1){
+        data.action = $("#actions-action").val();
+        output += "action: "+data.action+"\n";
+        // actions.push("Take the following actions:");
+        actions.push("mark the submission as <span class='badge badge-primary'>"+data.action+"</span>");
+    }
+
+    //reason
+    if($(".check-cont[data-type=actions-reason]").attr("data-valid")==1){
+        data.reason = $("#actions-reason").val();
+        output += "action_reason: " + JSON.stringify(data.reason) + "\n";
+        actions.push("with the reason <span class='badge badge-secondary'>"+data.reason+"</span>");
+    }
+
+    //comment
+    if($(".check-cont[data-type=actions-comment]").attr("data-valid")==1){
+        data.comment = $("#actions-comment").val();
+        data.comment_stickied = $("#actions-comment-sticky").prop("checked");
+
+        var tmp = {};
+        tmp.old = data.comment.split("\n");
+        tmp.new = [];
+
+        tmp.old.forEach(function(a,b){ tmp.new.push("\t\t"+a); });
+
+        data.comment = tmp.new.join("\n");
+        output += "comment: |\n" + data.comment + "\n";
+        output += "comment_stickied: " + data.comment_stickied + "\n";
+        actions.push("reply with <span class='badge badge-secondary'>a comment</span>");
+
+        tmp = null;
+    }
+
+    //modmail
+    if($(".check-cont[data-type=actions-modmail]").attr("data-valid")==1){
+        data.modmail = $("#actions-modmail").val();
+        data.modmail_subject = $("#actions-modmail-subject").val().trim().length > 0 ? $("#actions-modmail-subject").val().trim() : false;
+
+        var tmp = {};
+        tmp.old = data.modmail.split("\n");
+        tmp.new = [];
+        tmp.old.forEach(function(a,b){ tmp.new.push("\t\t"+a); });
+
+        data.modmail = tmp.new.join("\n");
+        if(data.modmail_subject) output += "modmail_subject: " + data.modmail_subject + "\n";
+        output += "modmail: |\n" + data.modmail + "\n";
+        actions.push("reply with <span class='badge badge-secondary'>a modmail</span>");
+
+        tmp = null;
+    }
+
+    //message
+    if($(".check-cont[data-type=actions-message]").attr("data-valid")==1){
+        data.message = $("#actions-message").val();
+        data.message_subject = $("#actions-message-subject").val().trim().length > 0 ? $("#actions-message-subject").val().trim() : false;
+
+        var tmp = {};
+        tmp.old = data.message.split("\n");
+        tmp.new = [];
+        tmp.old.forEach(function(a,b){ tmp.new.push("\t\t"+a); });
+
+        data.message = tmp.new.join("\n");
+        if(data.message_subject) output += "message_subject: " + data.message_subject + "\n";
+        output += "message: |\n" + data.message + "\n";
+        actions.push("reply with <span class='badge badge-secondary'>a message</span>");
+
+        tmp = null;
+    }
+
+    $("#summary").html(conditions.join("<br>") + "<br>" + actions.join("<br>"));
     console.log(output);
 }
 

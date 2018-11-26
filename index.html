@@ -50,7 +50,7 @@
                     <div class="modal-body">
                         <form>
                             <!-- rule-title -->
-                            <div class="form-group check-cont" data-valid="true" data-type="title">
+                            <div class="form-group check-cont" data-valid=1 data-type="title">
                                 <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
                                 <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
                                 <label for="rule-title">Rule Title</label>
@@ -62,7 +62,7 @@
                             <hr />
 
                             <!-- thing-types -->
-                            <div class="form-group check-cont" data-valid="true" data-type="thing-type" data-required>
+                            <div class="form-group check-cont" data-valid=1 data-type="thing-type" data-required>
                                 <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
                                 <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
                                 <label>"Thing" Types</label>
@@ -112,24 +112,24 @@
 
                                 <small class="text-muted">
                                     <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
-                                        <input type="checkbox" class="custom-control-input" id="thing-urls-inverse" data-check />
-                                        <label class="custom-control-label" for="thing-urls-inverse">Inverse</label>
+                                        <input type="checkbox" class="custom-control-input" id="thing-domains-inverse" data-check />
+                                        <label class="custom-control-label" for="thing-domains-inverse">Inverse</label>
                                     </div>
                                 </small>
 
                                 <ul class="nav nav-tabs" id="tab-domains" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#tab-domains-simple" role="tab" data-tab="simple">Simple Match</a>
+                                        <a class="nav-link active" data-toggle="tab" href="#tab-domains" role="tab" data-tab="simple">Simple Match</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#tab-domains-urls" role="tab" data-tab="regex">RegEx Match</a>
+                                        <a class="nav-link" data-toggle="tab" href="#tab-domains-regex" role="tab" data-tab="regex">RegEx Match</a>
                                     </li>
                                 </ul>
 
 
                                 <div class="tab-content">
                                     <!-- domains (regular) -->
-                                    <div id="tab-domains-simple" class="tab-pane show active" role="tabpanel">
+                                    <div id="tab-domains" class="tab-pane show active" role="tabpanel">
 
                                         <div class="form-group mt-2">
                                             <input type="text" class="form-control" id="thing-domains" data-role="tagsinput" data-check />
@@ -140,9 +140,9 @@
                                     <!-- .domains (regular) -->
 
                                     <!-- domains (regex) -->
-                                    <div id="tab-domains-urls" class="tab-pane" role="tabpanel">
+                                    <div id="tab-domains-regex" class="tab-pane" role="tabpanel">
                                         <div class="form-group mt-2">
-                                            <textarea class="form-control" id="thing-urls" rows=5 data-check ></textarea>
+                                            <textarea class="form-control" id="thing-domains-regex" rows=5 data-check ></textarea>
                                             <small class="form-text text-muted">The rule will be applied to domains which include the following regular expressions</small>
                                             <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>imgur\\.com/[A-Za-z0-9]{5,8}$</code></small>
                                         </div>
@@ -151,6 +151,57 @@
                                 </div>
                             </div>
                             <!-- .thing-domains -->
+
+                            <hr />
+
+                            <!-- thing-urls -->
+                            <div class="check-cont" data-valid="false" data-type="thing-urls">
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                <label for="thing-urls d-block">URL Matches</label>
+
+                                <small class="text-muted">
+                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
+                                        <input type="checkbox" class="custom-control-input" id="thing-urls-inverse" data-check />
+                                        <label class="custom-control-label" for="thing-urls-inverse">Inverse</label>
+                                    </div>
+                                </small>
+
+                                <ul class="nav nav-tabs" id="tab-urls" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#tab-urls" role="tab" data-tab="simple">Simple Match</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#tab-urls-regex" role="tab" data-tab="regex">RegEx Match</a>
+                                    </li>
+                                </ul>
+
+
+                                <div class="tab-content">
+                                    <!-- urls (regular) -->
+                                    <div id="tab-urls" class="tab-pane show active" role="tabpanel">
+
+                                        <div class="form-group mt-2">
+                                            <input type="text" class="form-control" id="thing-urls" data-role="tagsinput" data-check />
+                                            <small class="form-text text-muted">The rule will be applied to urls which include the following keywords</small>
+                                            <small class="form-text text-muted">Enter domain match strings and press return, e.g. <code>example.com</code>, <code>m.foo.us</code>, <code>twitter</code></small>
+                                        </div>
+                                    </div>
+                                    <!-- .urls (regular) -->
+
+                                    <!-- urls (regex) -->
+                                    <div id="tab-urls-regex" class="tab-pane" role="tabpanel">
+                                        <div class="form-group mt-2">
+                                            <textarea class="form-control" id="thing-urls-regex" rows=5 data-check ></textarea>
+                                            <small class="form-text text-muted">The rule will be applied to urls which include the following regular expressions</small>
+                                            <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>imgur\\.com/[A-Za-z0-9]{5,8}$</code></small>
+                                        </div>
+                                    </div>
+                                    <!-- .urls (regex) -->
+                                </div>
+                            </div>
+                            <!-- .thing-urls -->
 
                             <hr />
 
@@ -279,13 +330,11 @@
                                 </div>
                             </div>
                             <!-- .thing-body -->
-
                             <!-- .thing-matches -->
 
                             <hr />
 
                             <!-- user matches -->
-
                             <!-- author-usernames -->
                             <div class="check-cont" data-valid="false" data-type="author-usernames">
                                 <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
@@ -347,8 +396,8 @@
 
                             <hr />
 
-                            <!-- author-meta -->
-                            <label>Author Meta</label>
+                            <!-- meta -->
+                            <label>Meta</label>
                             <div class="check-cont d-flex align-items-center" data-type="author-karma">
                                 <div class="p-2 col-1">
                                     <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
@@ -388,10 +437,110 @@
                                     <input type="number" class="form-control" placeholder=0 id="author-age-value" data-check />
                                 </div>
                             </div>
-                            <!-- .author-meta -->
 
+                            <div class="check-cont bool d-flex align-items-center p-2" data-type="author-type-gold">
+                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                    <input type="checkbox" class="custom-control-input" id="author-type-gold" data-check />
+                                    <label class="custom-control-label" for="author-type-gold">Only applies to users with Gold membership</label>
+                                </div>
+                            </div>
+
+                            <div class="check-cont bool d-flex align-items-center p-2" data-type="author-type-mod">
+                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                    <input type="checkbox" class="custom-control-input" id="author-type-mod" data-check />
+                                    <label class="custom-control-label" for="author-type-mod">Only applies to moderators of the sub</label>
+                                </div>
+                            </div>
+                            <!-- .meta -->
                             <!-- .user matches -->
 
+                            <hr />
+
+                            <!-- actions -->
+                            <!-- moderate -->
+                            <div class="form-group check-cont" data-valid=1 data-type="actions-action" data-required>
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <label>Actions</label>
+
+                                <div class="form-group mt-2">
+                                    <select class="form-control" id="actions-action" data-check>
+                                        <option value="approve" selected><i class="fas fa-fw fas fa-check"></i>&nbsp;Approve</option>
+                                        <option value="remove"><i class="fas fa-fw fas fa-trash"></i>&nbsp;Remove</option>
+                                        <option value="spam"><i class="fas fa-fw fas fa-thumbs"></i>&nbsp;Spam</option>
+                                        <option value="filter"><i class="fas fa-fw fas fa-filter"></i>&nbsp;Filter</option>
+                                        <option value="report"><i class="fas fa-fw fas fa-flag"></i>&nbsp;Report</option>
+                                    </select>
+                                </div>
+                                <small class="form-text text-muted">Select the actions to take when a submission fulfils the logic</small>
+                            </div>
+                            <!-- .moderate -->
+
+                            <!-- reason -->
+                            <div class="form-group check-cont" data-valid=2 data-type="actions-reason">
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                <label for="actions-reason">Reason</label>
+                                <input type="text" class="form-control" name="reason" id="actions-reason" placeholder="Specify an action reason" data-check />
+                                <small class="form-text text-muted">This will add a comment to the automoderator actions</small>
+                            </div>
+                            <!-- .reason -->
+
+                            <hr />
+
+                            <!-- comment -->
+                            <div class="check-cont" data-valid="false" data-type="actions-comment">
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                <label for="thing-titles d-block">Action: Leave Comment</label>
+
+                                <small class="text-muted">
+                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
+                                        <input type="checkbox" class="custom-control-input" id="actions-comment-sticky" data-check />
+                                        <label class="custom-control-label" for="actions-comment-sticky">Sticky Comment</label>
+                                    </div>
+                                </small>
+
+                                <div class="form-group mt-2">
+                                    <textarea class="form-control" id="actions-comment" placeholder="Comment response" rows=5 data-check ></textarea>
+                                    <small class="form-text text-muted">This field accepts multi-line entry in reddit markdown</small>
+                                </div>
+                            </div>
+                            <!-- .comment -->
+
+                            <!-- modmail -->
+                            <div class="check-cont" data-valid="false" data-type="actions-modmail">
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                <label for="thing-titles d-block">Action: Send Modmail</label>
+
+                                <div class="form-group mt-2">
+                                    <input type="text" class="form-control" id="actions-modmail-subject" placeholder="Message Subject" data-check />
+                                    <textarea class="form-control mt-1" id="actions-modmail" placeholder="Modmail response" rows=5 data-check ></textarea>
+                                    <small class="form-text text-muted">This field accepts multi-line entry in reddit markdown</small>
+                                </div>
+                            </div>
+                            <!-- .modmail -->
+
+                            <!-- message -->
+                            <div class="check-cont" data-valid="false" data-type="actions-message">
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                <label for="thing-titles d-block">Action: Send Message</label>
+
+                                <div class="form-group mt-2">
+                                    <input type="text" class="form-control" id="actions-message-subject" placeholder="Message Subject" data-check />
+                                    <textarea class="form-control mt-1" id="actions-message" placeholder="Message response" rows=5 data-check ></textarea>
+                                    <small class="form-text text-muted">This field accepts multi-line entry in reddit markdown</small>
+                                </div>
+                            </div>
+                            <!-- .message -->
+
+                            <!-- .actions -->
                         </form>
 
                         <hr />
