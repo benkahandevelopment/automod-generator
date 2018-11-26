@@ -18,6 +18,29 @@
 <body>
     <div class="container-fluid">
 
+        <!-- TODO
+        https://www.reddit.com/wiki/automoderator/full-documentation
+
+        placeholders
+            {{author}} - the author's name (do /u/{{author}} for a link to the author's user page)
+            {{author_flair_text}} - the author's flair text (will be replaced with nothing if they have no flair set, or have it disabled)
+            {{author_flair_css_class}} - the author's flair CSS class (will be replaced with nothing if they have no flair set, or have it disabled)
+            {{author_flair_template_id}} - the author's template id (will be replaced with nothing if they have no flair set, or have it disabled)
+            {{body}} - the full body text of the text submission or comment
+            {{permalink}} - a link to the item
+            {{subreddit}} - the subreddit's name (do /r/{{subreddit}} for a link to the subreddit)
+            {{kind}} - replaced with "submission" for submissions or "comment" for comments
+            {{title}} - the submission's title
+            {{domain}} - the submission's domain
+            {{url}} - the submission's full url
+
+        media placeholders
+            {{media_author}} - the media's author username
+            {{media_author_url}} - the media's author url
+            {{media_title}} - the media's title
+            {{media_description}} - the media's description
+        -->
+
         <!-- jumbotron -->
         <div class="row">
             <div class="col">
@@ -397,7 +420,7 @@
                             <hr />
 
                             <!-- meta -->
-                            <label>Meta</label>
+                            <label>Other Conditions</label>
                             <div class="check-cont d-flex align-items-center" data-type="author-karma">
                                 <div class="p-2 col-1">
                                     <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
@@ -438,6 +461,50 @@
                                 </div>
                             </div>
 
+                            <div class="check-cont d-flex align-items-center" data-type="other-reports">
+                                <div class="p-2 col-1">
+                                    <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                    <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                    <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                </div>
+                                <div class="p-2 col-3">Number of reports</div>
+                                <div class="p-2">
+                                    <input type="number" class="form-control" placeholder=0 id="other-reports" data-check />
+                                </div>
+                            </div>
+
+                            <div class="check-cont d-flex align-items-center" data-type="other-body-length">
+                                <div class="p-2 col-1">
+                                    <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                    <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                    <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                </div>
+                                <div class="p-2 col-3">Body length</div>
+                                <div class="p-2">
+                                    <select class="form-control" id="other-body-length-logic" data-check >
+                                        <option value="longer_than">longer than</option>
+                                        <option value="shorter_than">shorter than</option>
+                                    </select>
+                                </div>
+                                <div class="p-2">
+                                    <input type="number" class="form-control" placeholder=0 id="other-body-length-value" data-check />
+                                </div>
+                            </div>
+
+                            <div class="check-cont bool d-flex align-items-center p-2" data-type="other-oc">
+                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                    <input type="checkbox" class="custom-control-input" id="other-oc" data-check />
+                                    <label class="custom-control-label" for="other-oc">Only applies to OC (posts only)</label>
+                                </div>
+                            </div>
+
+                            <div class="check-cont bool d-flex align-items-center p-2" data-type="other-toplevel">
+                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                    <input type="checkbox" class="custom-control-input" id="other-toplevel" data-check />
+                                    <label class="custom-control-label" for="other-toplevel">Only applies to top-level comments (comments only)</label>
+                                </div>
+                            </div>
+
                             <div class="check-cont bool d-flex align-items-center p-2" data-type="author-type-gold">
                                 <div class="custom-control custom-checkbox custom-checkbox-inline">
                                     <input type="checkbox" class="custom-control-input" id="author-type-gold" data-check />
@@ -461,11 +528,13 @@
                             <div class="form-group check-cont" data-valid=1 data-type="actions-action" data-required>
                                 <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
                                 <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
                                 <label>Actions</label>
 
                                 <div class="form-group mt-2">
                                     <select class="form-control" id="actions-action" data-check>
-                                        <option value="approve" selected><i class="fas fa-fw fas fa-check"></i>&nbsp;Approve</option>
+                                        <option value="default" selected><i class="fas fa-fw fas fa-check"></i>&nbsp;No action</option>
+                                        <option value="approve"><i class="fas fa-fw fas fa-check"></i>&nbsp;Approve</option>
                                         <option value="remove"><i class="fas fa-fw fas fa-trash"></i>&nbsp;Remove</option>
                                         <option value="spam"><i class="fas fa-fw fas fa-thumbs"></i>&nbsp;Spam</option>
                                         <option value="filter"><i class="fas fa-fw fas fa-filter"></i>&nbsp;Filter</option>
@@ -510,6 +579,8 @@
                             </div>
                             <!-- .comment -->
 
+                            <hr />
+
                             <!-- modmail -->
                             <div class="check-cont" data-valid="false" data-type="actions-modmail">
                                 <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
@@ -524,6 +595,8 @@
                                 </div>
                             </div>
                             <!-- .modmail -->
+
+                            <hr />
 
                             <!-- message -->
                             <div class="check-cont" data-valid="false" data-type="actions-message">
@@ -540,12 +613,96 @@
                             </div>
                             <!-- .message -->
 
+                            <hr />
+
+                            <div class="check-cont bool d-flex align-items-center p-2" data-type="actions-sticky">
+                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                    <input type="checkbox" class="custom-control-input" id="actions-sticky" data-check />
+                                    <label class="custom-control-label" for="actions-sticky">Make post sticky</label>
+                                </div>
+                            </div>
+
+                            <div class="check-cont bool d-flex align-items-center p-2" data-type="actions-nsfw">
+                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                    <input type="checkbox" class="custom-control-input" id="actions-nsfw" data-check />
+                                    <label class="custom-control-label" for="actions-nsfw">Mark post as NSFW</label>
+                                </div>
+                            </div>
+
+                            <div class="check-cont bool d-flex align-items-center p-2" data-type="actions-spoiler">
+                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                    <input type="checkbox" class="custom-control-input" id="actions-spoiler" data-check />
+                                    <label class="custom-control-label" for="actions-spoiler">Mark post as a spoiler</label>
+                                </div>
+                            </div>
+
+                            <div class="check-cont bool d-flex align-items-center p-2" data-type="actions-contest">
+                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                    <input type="checkbox" class="custom-control-input" id="actions-contest" data-check />
+                                    <label class="custom-control-label" for="actions-contest">Set post to "contest" mode</label>
+                                </div>
+                            </div>
+
+                            <div class="check-cont bool d-flex align-items-center p-2" data-type="actions-oc">
+                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                    <input type="checkbox" class="custom-control-input" id="actions-oc" data-check />
+                                    <label class="custom-control-label" for="actions-oc">Mark post as Original Content</label>
+                                </div>
+                            </div>
+
+                            <div class="check-cont bool d-flex align-items-center p-2" data-type="actions-locked">
+                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                    <input type="checkbox" class="custom-control-input" id="actions-locked" data-check />
+                                    <label class="custom-control-label" for="actions-locked">Lock post</label>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <div class="check-cont" data-valid="2" data-type="actions-suggested">
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                <label for="actions-suggested d-block">Set suggested sort</label>
+
+                                <div class="form-group">
+                                    <select class="form-control" id="actions-suggested" data-check >
+                                        <option value="default" selected>sub default</option>
+                                        <option value="best">best</option>
+                                        <option value="new">new</option>
+                                        <option value="qa">qa</option>
+                                        <option value="top">top</option>
+                                        <option value="controversial">controversial</option>
+                                        <option value="hot">hot</option>
+                                        <option value="old">old</option>
+                                        <option value="random">random</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <div class="check-cont" data-valid="2" data-type="actions-flair">
+                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
+                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
+                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
+                                <label for="d-block">Set post flair</label>
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="actions-flair-text" placeholder="Flair Text" data-check>
+                                    <input type="text" class="form-control mt-1" id="actions-flair-cssclass" placeholder="CSS Class (optional)" data-check>
+                                    <input type="text" class="form-control mt-1" id="actions-flair-templateid" placeholder="Template ID (optional)" data-check>
+                                </div>
+                            </div>
+
                             <!-- .actions -->
                         </form>
 
                         <hr />
                         <label>Summary</label>
-                        <div class="container" id="summary"></div>
+                        <div class="container">
+                            <ul class="list-group" id="summary"></ul>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
