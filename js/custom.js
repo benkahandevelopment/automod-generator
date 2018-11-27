@@ -699,7 +699,7 @@ function refreshRules(){
     suspend = true;
     $(".check-cont input, .check-cont textarea").val("");
     $(".check-cont select").each(function(){ $(this).val($(this).find("option:first").val()); });
-    $(".check-cont checkbox").prop("checked", false);
+    $("input[type=checkbox]").prop("checked", false);
     $("#thing-type-link, #thing-type-text").prop("checked",true);
     $("[data-role=tagsinput]").tagsinput('removeAll');
     suspend = false;
