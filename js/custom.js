@@ -1,9 +1,49 @@
 /* Custom JS */
+var suspend = false;
+
 $(function(){
-    $("[data-check]").change(function(){ checkValidate(); });
+
+    $("[data-check]").change(function(){ if(!suspend) { checkValidate(); } });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) { checkValidate(); });
     $("#modal-new-rule").on('shown.bs.modal', function(){ checkValidate(); });
     $("#add-rule").click(function(){ createRule(); });
+    $("#edit-rule").click(function(){ createRule("edit"); });
+    $("#clear-values").click(function(){ refreshRules(); });
+    $("#new-rule-modal").click(function(){
+        refreshRules();
+        $("#edit-rule").attr("data-id",false).hide();
+        $("#add-rule").show();
+        $('#modal-new-rule').modal('show');
+        $('#modal-new-rule').modal('show');
+    });
+
+    $(document.body).on('click', '.btn-edit', function(){
+        var $el = $(this).closest("li.rules-item");
+        var data = JSON.parse(decodeURI($el.attr("data-raw")));
+        refreshRules();
+
+        $.each(data, function(a,b){
+            if($("#"+a).attr("data-role")=="tagsinput") $('#'+a).tagsinput('add', b);
+                else $("#"+a).val(b);
+        });
+
+        $("#edit-rule").attr("data-id",$el.attr("data-id")).show();
+        $("#add-rule").hide();
+        $('#modal-new-rule').modal('show');
+    });
+
+    $(document.body).on('click', '.btn-expand', function(){
+        var $el = $(this);
+        $li = $el.closest("li.rules-item");
+
+        if($li.hasClass("expanded")){
+            $li.removeClass("expanded");
+            $el.html("Expand");
+        } else {
+            $li.addClass("expanded");
+            $el.html("Collapse");
+        }
+    });
 });
 
 function checkValidate(){
@@ -216,7 +256,7 @@ function validate(type){
     return valid;
 }
 
-function createRule(){
+function createRule(param){
     if(!checkValidate()) return false;
 
     var output = "";
@@ -230,7 +270,7 @@ function createRule(){
 
     //title
     if($(".check-cont[data-type=title]").attr("data-valid")==0) return false;
-    data.title = $("input[name=title]").val();
+    data.title = $("#rule-title").val();
     output += "# " + data.title + "\n";
 
     //type
@@ -476,14 +516,14 @@ function createRule(){
         data.action = $("#actions-action").val();
         output += "action: "+data.action+"\n";
         // actions.push("Take the following actions:");
-        actions.push("mark the submission as <span class='badge badge-primary'>"+data.action+"</span>");
+        actions.push("mark the submission as <span class='badge badge-success'>"+data.action+"</span>");
     }
 
     //reason
     if($(".check-cont[data-type=actions-reason]").attr("data-valid")==1){
         data.reason = $("#actions-reason").val();
         output += "action_reason: " + JSON.stringify(data.reason) + "\n";
-        actions.push("give a reason <span class='badge badge-secondary'>"+data.reason+"</span>");
+        actions.push("give a reason <span class='badge badge-success'>"+data.reason+"</span>");
     }
 
     //comment
@@ -500,7 +540,7 @@ function createRule(){
         data.comment = tmp.new.join("\n");
         output += "comment: |\n" + data.comment + "\n";
         output += "comment_stickied: " + data.comment_stickied + "\n";
-        actions.push("reply with <span class='badge badge-secondary'>a comment</span>");
+        actions.push("reply with <span class='badge badge-success'>a comment</span>");
 
         tmp = null;
     }
@@ -518,7 +558,7 @@ function createRule(){
         data.modmail = tmp.new.join("\n");
         if(data.modmail_subject) output += "modmail_subject: " + data.modmail_subject + "\n";
         output += "modmail: |\n" + data.modmail + "\n";
-        actions.push("reply with <span class='badge badge-secondary'>a modmail</span>");
+        actions.push("reply with <span class='badge badge-success'>a modmail</span>");
 
         tmp = null;
     }
@@ -536,7 +576,7 @@ function createRule(){
         data.message = tmp.new.join("\n");
         if(data.message_subject) output += "message_subject: " + data.message_subject + "\n";
         output += "message: |\n" + data.message + "\n";
-        actions.push("reply with <span class='badge badge-secondary'>a message</span>");
+        actions.push("reply with <span class='badge badge-success'>a message</span>");
 
         tmp = null;
     }
@@ -545,7 +585,7 @@ function createRule(){
     if($(".check-cont[data-type=actions-suggested]").attr("data-valid")==1){
         data.set_suggested_sort = $("#actions-suggested").val();
         output += "set_suggested_sort: "+data.set_suggested_sort+"\n";
-        actions.push("set the suggested sort to <span class='badge badge-primary'>"+data.set_suggested_sort+"</span>");
+        actions.push("set the suggested sort to <span class='badge badge-success'>"+data.set_suggested_sort+"</span>");
     }
 
     //Flair
@@ -560,54 +600,110 @@ function createRule(){
         if(data.flair.cssclass) output += "\tcss_class: " + data.flair.cssclass + "\n";
         if(data.flair.templateid) output += "\ttemplate_id: " + data.flair.templateid + "\n";
 
-        actions.push("set flair to <span class='badge badge-primary'>"+data.flair.text+"</span>");
+        actions.push("set flair to <span class='badge badge-success'>"+data.flair.text+"</span>");
     }
 
     //other actions
     if($("#actions-sticky").prop("checked")){
         data.set_sticky = true;
         output += "set_sticky: true\n";
-        actions.push("mark the post as <span class='badge badge-primary'>sticky</span>");
+        actions.push("mark the post as <span class='badge badge-success'>sticky</span>");
     }
 
     if($("#actions-nsfw").prop("checked")){
         data.set_nsfw = true;
         output += "set_nsfw: true\n";
-        actions.push("mark the post as <span class='badge badge-primary'>nsfw</span>");
+        actions.push("mark the post as <span class='badge badge-success'>nsfw</span>");
     }
 
     if($("#actions-spoiler").prop("checked")){
         data.set_spoiler = true;
         output += "set_spoiler: true\n";
-        actions.push("mark the post as <span class='badge badge-primary'>spoiler</span>");
+        actions.push("mark the post as <span class='badge badge-success'>spoiler</span>");
     }
 
     if($("#actions-contest").prop("checked")){
         data.set_contest_mode = true;
         output += "set_contest_mode: true\n";
-        actions.push("mark the post as <span class='badge badge-primary'>contest</span>");
+        actions.push("mark the post as <span class='badge badge-success'>contest</span>");
     }
 
     if($("#actions-oc").prop("checked")){
         data.set_original_content = true;
         output += "set_original_content: true\n";
-        actions.push("mark the post as <span class='badge badge-primary'>oc</span>");
+        actions.push("mark the post as <span class='badge badge-success'>oc</span>");
     }
 
     if($("#actions-locked").prop("checked")){
         data.set_locked = true;
         output += "set_locked: true\n";
-        actions.push("mark the post as <span class='badge badge-primary'>locked</span>");
+        actions.push("mark the post as <span class='badge badge-success'>locked</span>");
     }
 
+    var raw = {};
+    $(".check-cont[data-valid='1']").each(function(){
+        var $c = $(this);
+        // raw[$c.attr("data-type")] = {};
+        $c.find("input[data-check], textarea[data-check]").each(function(){
+            var $i = $(this);
 
-    $("#summary").html("<li class='list-group-item'>"+
-        conditions.join("</li><li class='list-group-item'>")+
-        "</li><li class='list-group-item'>"+
-        (actions.length > 0 ? actions.join("</li><li class='list-group-item'>") : "take no action")+
-        "</li>");
+            if($i.is("select")){
+                v = $i.val();
+            } else if($i.attr("type")=="text"){
+                v = $i.val();
+            } else if($i.attr("type")=="number"){
+                v = parseInt($i.val());
+            } else if($i.attr("type")=="checkbox"){
+                v = $i.prop("checked");
+            } else v = "error";
+            // raw[$c.attr("data-type")][$i.attr("id")] = v;
+            raw[$i.attr("id")] = v;
+        });
+    });
 
-    console.log(output);
+    var id;
+    if(param=="edit") id = $("#edit-rule").attr("data-id");
+        else if(!id) id = 1;
+        else id = 1;
+
+    if(param!="edit") $("#rules li").each(function(){ if(id <= $(this).attr("data-id")) id = $(this).attr("data-id") + 1; });
+
+
+    var output_summary = "<li class='list-group-item'>"+
+                conditions.join("</li><li class='list-group-item'>")+
+            "</li><li class='list-group-item'>"+
+                (actions.length > 0 ? actions.join("</li><li class='list-group-item'>") : "take no action")+
+            "</li>";
+
+    var output_rule = '<li data-id="'+id+'" class="rules-item list-group-item list-group-item-action flex-column align-items-start expanded" data-raw=\''+encodeURI(JSON.stringify(raw))+'\'>'+
+            '<div class="d-flex w-100 justify-content-between">'+
+                '<h4>'+data.title+'</h5>'+
+                '<small class="rule-meta-top"><span class="badge badge-primary">'+conditions.length+' condition'+(conditions.length===1 ? "" : "s")+'</span> <span class="badge badge-success">'+actions.length+' action'+(actions.length===1 ? "" : "s")+'</span></small>'+
+            '</div>'+
+            '<div class="row mb-1">'+
+                "<div class='col-6 rule-output'><h5 class='mb-1'>YAML</h5><pre>---\n"+output+'</pre></div>'+
+                '<ul class="col-6 rule-summary list-group small"><h5 class="mb-1">Summary</h5>'+output_summary+'</ul>'+
+            '</div>'+
+            '<small class="rule-meta-bot"><span class="btn-expand">Expand</span> | <span class="btn-edit">Edit</span> | Delete | Export | Save As Template</small>'+
+        '</li>';
+
+        //
+
+    if(param=="edit") $("#rules li[data-id="+id+"]").replaceWith(output_rule);
+        else $("#rules").append(output_rule);
+    $('#modal-new-rule').modal('hide');
+    refreshRules();
+}
+
+function refreshRules(){
+    suspend = true;
+    $(".check-cont input, .check-cont textarea").val("");
+    $(".check-cont select").each(function(){ $(this).val($(this).find("option:first").val()); });
+    $(".check-cont checkbox").prop("checked", false);
+    $("#thing-type-link, #thing-type-text").prop("checked",true);
+    $("[data-role=tagsinput]").tagsinput('removeAll');
+    suspend = false;
+    checkValidate();
 }
 
 

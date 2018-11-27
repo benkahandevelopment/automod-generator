@@ -1,5 +1,13 @@
 /* Custom CSS on top of existing Boostrap/Theme */
 
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
 body {
     margin-left: auto;
     margin-right: auto;
@@ -103,10 +111,55 @@ input[type=checkbox][name=thing-types]:checked + label.thing-type span.validatio
 .check-cont[data-valid="1"] span.validation.selected { opacity: 1 !important; color: #3FB618; display: inline-block; }
 .check-cont[data-valid="2"] span.validation.ignore { opacity: 1 !important; color: #f0ad4e; display: inline-block; }
 
+.check-cont[data-valid="0"] .form-control, .check-cont[data-valid="0"] .bootstrap-tagsinput { border-color: #FF0039; }
+.check-cont[data-valid="1"] .form-control, .check-cont[data-valid="1"] .bootstrap-tagsinput { border-color: #3FB618; }
+/* .check-cont[data-valid="2"] .form-control, .check-cont[data-valid="2"].bootstrap-tagsinput { border-color: #f0ad4e; } */
+
 .custom-control-label::before { top: 2px; }
 .custom-control-label::after { top: 2px; }
 
+#edit-rule { display: none; }
+
 hr { margin-top: 4em; }
+
+.rule-meta-bot {
+    opacity: 0;
+    position: absolute;
+    bottom: 5px;
+    right: 20px;
+    z-index:999;
+}
+li.rules-item:hover .rule-meta-bot { opacity: 1; }
+li.rules-item {
+    max-height: 150px;
+    position:relative;
+    overflow:hidden;
+}
+li.rules-item.expanded {
+    max-height: none;
+    padding-bottom: 25px;
+}
+li.rules-item:not(.expanded):after {
+  content  : "";
+  position : absolute;
+  z-index  : 1;
+  bottom   : 0;
+  left     : 0;
+  pointer-events   : none;
+  background-image : linear-gradient(to bottom,
+                    rgba(255,255,255, 0),
+                    rgba(255,255,255, 1) 80%);
+  width    : 100%;
+  height   : 4em;
+}
+.rule-meta-bot span {
+    color: #2780E3;
+    cursor:pointer;
+}
+
+.rule-meta-bot span:hover {
+    text-decoration: underline;
+}
 
 /* Tagsinput */
 .bootstrap-tagsinput {
