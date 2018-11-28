@@ -3,6 +3,104 @@ var suspend = false;
 
 $(function(){
 
+    /*
+    start new style
+     */
+
+    /*
+    REFERENCE ----
+    on list
+        title
+        type
+
+    conditions
+        search
+          domain
+          url
+          title
+          body
+          username
+        author meta
+          karma
+          age
+          gold
+          moderator
+        post meta
+          reports
+          body length
+          oc
+        comment meta
+          top level only
+
+    actions
+        post
+          action
+          reason
+          sort
+          flair
+        announce
+          comment
+          modmail
+          message
+     */
+
+    /*
+     code for setup modal
+     */
+
+     var navListItems = $('div.setup-panel div a'),
+             allWells = $('.setup-content'),
+             allNextBtn = $('.nextBtn');
+
+     allWells.hide();
+
+     navListItems.click(function (e) {
+         e.preventDefault();
+         var $target = $($(this).attr('href')),
+                 $item = $(this);
+
+         if (!$item.attr('disabled')) {
+             navListItems.removeClass('btn-primary').addClass('btn-default');
+             $item.addClass('btn-primary');
+             allWells.hide();
+             $target.show();
+             $target.find('input:eq(0)').focus();
+         }
+     });
+
+     allNextBtn.click(function(){
+         var curStep = $(this).closest(".setup-content"),
+             curStepBtn = curStep.attr("id"),
+             nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+             //validity checks here
+             // curInputs = curStep.find("input[type='text'],input[type='url']"),
+             isValid = true;
+
+        //remove existing errors
+        // $(".form-group").removeClass("has-error");
+
+        //iterate and do checks
+        // for(var i=0; i<curInputs.length; i++){
+        //     if (!curInputs[i].validity.valid){
+        //         isValid = false;
+        //         $(curInputs[i]).closest(".form-group").addClass("has-error");
+        //     }
+        // }
+
+        if (isValid)
+            nextStepWizard.removeAttr('disabled').trigger('click');
+     });
+     $('div.setup-panel div a.btn-primary').trigger('click');
+     /*
+     end code for setup modal
+      */
+
+     /*
+      end new style
+      */
+
+     $("#modal-new-condition").modal("show");
+
     $("[data-check]").change(function(){ if(!suspend) { checkValidate(); } });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) { checkValidate(); });
     $("#modal-new-rule").on('shown.bs.modal', function(){ checkValidate(); });

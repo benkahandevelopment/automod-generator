@@ -60,89 +60,12 @@
             <div class="col">
                 <ul class="list-group" id="rules"></ul>
                 <button class="btn btn-primary btn-block mt-2" type="button" id="new-rule-modal"><i class="fas fa-plus"></i>&nbsp;Add New Rule</button>
-                <button class="btn btn-primary btn-block mt-1" type="button" data-target="modal-new-condition" id="new-condition-modal"><i class="fas fa-plus"></i>&nbsp;Add New Condition</button>
             </div>
         </div>
         <!-- .rules -->
 
         <!-- modals -->
         <!-- modal-new-rule -->
-        <div class="modal fade" id="modal-new-condition" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title">New Condition</h3>
-                    </div>
-
-                    <div class="modal-body">
-                        <!-- Steps starts here -->
-                        <div class="requestwizard">
-                            <div class="requestwizard-row setup-panel">
-                                <div class="requestwizard-step">
-                                    <a href="#step-1" class="btn btn-nav btn-primary btn-circle">1</a>
-                                    <p>Condition Type</p><!-- search, boolean, author meta -->
-                                </div>
-                                <div class="requestwizard-step">
-                                    <a href="#step-2" class="btn btn-nav btn-default btn-circle" disabled="disabled">2</a>
-                                    <p>Condition Configuration</p>
-                                </div>
-                                <div class="requestwizard-step">
-                                    <a href="#step-3" class="btn btn-nav btn-default btn-circle" disabled="disabled">3</a>
-                                    <p>Summary</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="setup-content" id="step-1">
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="setup-selection-cont col-4" data-selection="search">
-                                    <div class="setup-selection">
-                                        <i class="fas fa-search"></i>
-                                        <div class="label">Search</div>
-                                        <small class="text-muted">Search keywords/regex in the domain, url, title, body, and author's username</small>
-                                    </div>
-                                </div>
-                                <div class="setup-selection-cont col-4" data-selection="author-meta">
-                                    <div class="setup-selection">
-                                        <i class="fas fa-user"></i>
-                                        <div class="label">Author Meta</div>
-                                        <small class="text-muted">Match conditions against author karma, account age, gold status, and moderator status</small>
-                                    </div>
-                                </div>
-                                <div class="setup-selection-cont col-4" data-selection="post-meta">
-                                    <div class="setup-selection">
-                                        <i class="fas fa-link"></i>
-                                        <div class="label">Post/Comment Meta</div>
-                                        <small class="text-muted"></small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button><button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
-                        </div>
-                    </div>
-
-                    <div class="setup-content" id="step-2">
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button><button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
-                        </div>
-                    </div>
-
-                    <div class="setup-content" id="step-3">
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button><button class="btn btn-success finishBtn pull-right" type="button">Finish</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <!-- .test -->
         <div class="modal fade" id="modal-new-rule" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
