@@ -60,7 +60,7 @@
             <div class="col">
                 <ul class="list-group" id="rules"></ul>
                 <button class="btn btn-primary btn-block mt-2" type="button" id="new-rule-modal"><i class="fas fa-plus"></i>&nbsp;Add New Rule</button>
-                <button class="btn btn-primary btn-block mt-1" type="button" data-target="modal-new-condition" id="new-condition-modal"><i class="fas fa-plus"></i>&nbsp;Add New Condition</button>
+                <button class="btn btn-primary btn-block mt-1 new-condition-modal" type="button" data-target="modal-new-condition"><i class="fas fa-plus"></i>&nbsp;Add New Condition</button>
             </div>
         </div>
         <!-- .rules -->
@@ -77,17 +77,17 @@
                     <div class="modal-body">
                         <!-- Steps starts here -->
                         <div class="requestwizard">
-                            <div class="requestwizard-row setup-panel">
-                                <div class="requestwizard-step">
-                                    <a href="#step-1" class="btn btn-nav btn-primary btn-circle">1</a>
-                                    <p>Condition Type</p><!-- search, boolean, author meta -->
+                            <div class="setup-panel row">
+                                <div class="requestwizard-step col-4">
+                                    <a href="#step-1" class="btn btn-nav btn-primary btn-circle"><i class="fas fa-th-list"></i></a>
+                                    <p>Choose Type</p><!-- search, boolean, author meta -->
                                 </div>
-                                <div class="requestwizard-step">
-                                    <a href="#step-2" class="btn btn-nav btn-default btn-circle" disabled="disabled">2</a>
-                                    <p>Condition Configuration</p>
+                                <div class="requestwizard-step col-4">
+                                    <a href="#step-2" class="btn btn-nav btn-default btn-circle" disabled="disabled"><i class="fas fa-wrench"></i></a>
+                                    <p>Configure</p>
                                 </div>
-                                <div class="requestwizard-step">
-                                    <a href="#step-3" class="btn btn-nav btn-default btn-circle" disabled="disabled">3</a>
+                                <div class="requestwizard-step col-4">
+                                    <a href="#step-3" class="btn btn-nav btn-default btn-circle" disabled="disabled"><i class="far fa-check-square"></i></a>
                                     <p>Summary</p>
                                 </div>
                             </div>
@@ -97,25 +97,35 @@
                     <div class="setup-content" id="step-1">
                         <div class="modal-body">
                             <div class="row">
-                                <div class="setup-selection-cont col-4" data-selection="search">
-                                    <div class="setup-selection">
-                                        <i class="fas fa-search"></i>
-                                        <div class="label">Search</div>
-                                        <small class="text-muted">Search keywords/regex in the domain, url, title, body, and author's username</small>
-                                    </div>
-                                </div>
-                                <div class="setup-selection-cont col-4" data-selection="author-meta">
-                                    <div class="setup-selection">
-                                        <i class="fas fa-user"></i>
-                                        <div class="label">Author Meta</div>
-                                        <small class="text-muted">Match conditions against author karma, account age, gold status, and moderator status</small>
-                                    </div>
-                                </div>
-                                <div class="setup-selection-cont col-4" data-selection="post-meta">
-                                    <div class="setup-selection">
-                                        <i class="fas fa-link"></i>
-                                        <div class="label">Post/Comment Meta</div>
-                                        <small class="text-muted"></small>
+                                <ul class="col-xs-12 col-md-3 setup-overview list-group list-group-flush mb-2">
+                                    <li class="list-group-item small">List Item</li>
+                                    <li class="list-group-item small">List Item</li>
+                                    <li class="list-group-item small">List Item</li>
+                                    <li class="list-group-item small">List Item</li>
+                                </ul>
+                                <div class="col-xs-12 col-md-9">
+                                    <div class="row">
+                                        <div class="setup-selection-cont col-xs-12 col-sm-4 mb-2" data-selection="search" data-check>
+                                            <div class="setup-selection">
+                                                <i class="fas fa-search"></i>
+                                                <div class="label">Search</div>
+                                                <small class="label-meta">Search keywords/regex in the domain, url, title, body, and author's username</small>
+                                            </div>
+                                        </div>
+                                        <div class="setup-selection-cont col-xs-12 col-sm-4 mb-2" data-selection="author-meta" data-check>
+                                            <div class="setup-selection">
+                                                <i class="fas fa-user"></i>
+                                                <div class="label">Author</div>
+                                                <small class="label-meta">Match conditions against author karma, account age, gold status, and moderator status</small>
+                                            </div>
+                                        </div>
+                                        <div class="setup-selection-cont col-xs-12 col-sm-4 mb-2" data-selection="post-meta" data-check>
+                                            <div class="setup-selection">
+                                                <i class="fas fa-link"></i>
+                                                <div class="label">Post/Comment</div>
+                                                <small class="label-meta">Match against number of reports, body length, if the post is OC, and top level comments</small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

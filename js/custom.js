@@ -25,11 +25,10 @@ $(function(){
           age
           gold
           moderator
-        post meta
+        post/comment meta
           reports
           body length
           oc
-        comment meta
           top level only
 
     actions
@@ -95,11 +94,16 @@ $(function(){
      end code for setup modal
       */
 
+      $(".setup-selection").click(function(){
+          $(".setup-selection").removeClass("active");
+          $(this).addClass("active");
+      });
+
      /*
       end new style
       */
 
-     $("#modal-new-condition").modal("show");
+     $(".new-condition-modal").click(function(){ $("#modal-new-condition").modal("show"); })
 
     $("[data-check]").change(function(){ if(!suspend) { checkValidate(); } });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) { checkValidate(); });
