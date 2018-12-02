@@ -120,7 +120,7 @@ input[type=checkbox][name=thing-types]:checked + label.thing-type span.validatio
 
 #edit-rule { display: none; }
 
-hr { margin-top: 4em; }
+/* .modal hr { margin-top: 4em; } */
 
 .rule-meta-bot {
     opacity: 0;
@@ -179,10 +179,47 @@ li.rules-item:not(.expanded):after {
 .setup-selection.active i { opacity: 1; }
 .setup-selection:hover { background-color: rgba(0,0,0,0.1); }
 .setup-selection:hover i, .setup-selection.active { opacity: 1; }
-.setup-selection.active { background-color: #2780E3; color: white; }
+.setup-selection.active { background-color: #2780E3; color: white !important; }
 .setup-selection .label { margin-top: 1em; }
 .label-meta { color: #868e96; }
 .setup-selection.active .label-meta { color:white; }
+
+.setup-overview li { cursor: pointer; }
+.setup-overview li:not(.active) small { color: #868e96; }
+
+select.form-control.hf {
+    padding-bottom: 4px;
+    padding-top: 4px;
+    line-height: 22px;
+    height: auto !important;
+}
+
+#rules .form-group {
+    margin-bottom: 0;
+}
+
+#rules .form-group:not(:last-child) {
+    box-sizing: border-box;
+    margin-right: 2em;
+    padding-right: 2em;
+    border-right: 1px solid #ced4da;
+}
+
+.rules-item-title { padding: 0; }
+.rules-item-title:focus {
+    border-color: rgba(0,0,0,0);
+    border-bottom-color: #ced4da;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.rules-item-title:not(:focus) {
+    background-color: transparent;
+    border-top-color: rgba(0,0,0,0);
+    border-right-color: rgba(0,0,0,0);
+    border-left-color: rgba(0,0,0,0);
+    border-bottom-color: #ced4da;
+}
 
 /* Tagsinput */
 .bootstrap-tagsinput {
@@ -196,18 +233,6 @@ li.rules-item:not(.expanded):after {
 }
 
 /* wizard modal */
-/* .requestwizard-modal{
-	background: rgba(255, 255, 255, 0.8);
-	box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
-}
-.requestwizard-step p {
-    margin-top: 10px;
-} */
-
-/* .requestwizard-row {
-    display: table-row;
-} */
-
 .requestwizard {
     display: table;
     width: 100%;
@@ -215,12 +240,6 @@ li.rules-item:not(.expanded):after {
 }
 
 .requestwizard-step a.btn-nav[disabled] {
-    /* background-color: white;
-    outline: none;
-    border: 1px solid #ced4da;
-    opacity: 1 !important;
-    filter: alpha(opacity=100) !important;
-    color: #ced4da; */
     border: 1px solid #ced4da;
     background: white;
     color: #ced4da;
@@ -232,6 +251,12 @@ li.rules-item:not(.expanded):after {
     color: white;
 }
 
+.requestwizard-step p {
+    font-size: small;
+    color: #868e96;
+    margin-bottom: 0;
+}
+
 .requestwizard-row:before {
     top: 14px;
     bottom: 0;
@@ -241,7 +266,6 @@ li.rules-item:not(.expanded):after {
     height: 1px;
     background-color: #ccc;
     z-order: 0;
-
 }
 
 .requestwizard-step {

@@ -58,9 +58,42 @@
         <!-- rules -->
         <div class="row">
             <div class="col">
-                <ul class="list-group" id="rules"></ul>
-                <button class="btn btn-primary btn-block mt-2" type="button" id="new-rule-modal"><i class="fas fa-plus"></i>&nbsp;Add New Rule</button>
-                <button class="btn btn-primary btn-block mt-1 new-condition-modal" type="button" data-target="modal-new-condition"><i class="fas fa-plus"></i>&nbsp;Add New Condition</button>
+                <ul class="list-group" id="rules">
+                    <li class="list-group-item rules-item2">
+                        <div class="form-row">
+
+                            <div class="form-group col-2 text-center">
+                                <!-- Row modification buttons -->
+                                <div class="btn-group">
+                                    <button type="button" class="form-control btn btn-warning" data-item-btn="edit"><i class="fas fa-fw fa-edit"></i></button>
+                                    <button type="button" class="form-control btn btn-danger" data-item-btn="delete"><i class="fas fa-fw fa-trash"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <!-- Title input -->
+                                <input class="form-control rules-item-title" placeholder="Enter a descriptive title" />
+                            </div>
+
+                            <div class="form-group">
+                                <!-- Conditions -->
+                                <ul class="rule-conditions list-group">
+                                </ul>
+                                <button type="button" class="btn btn-primary new-condition-modal"><i class="fas fa-plus"></i>&nbsp;New Condition</button>
+                            </div>
+
+                            <div class="form-group">
+                                <!-- Actions -->
+                                <ul class="rule-actions list-group">
+                                </ul>
+                                <button type="button" class="btn btn-primary"><i class="fas fa-plus"></i>&nbsp;New Action</button>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
+                <!-- <button class="btn btn-primary btn-block mt-2" type="button" id="new-rule-modal"><i class="fas fa-plus"></i>&nbsp;Add New Rule</button>
+                <button class="btn btn-primary btn-block mt-1 new-condition-modal" type="button" data-target="modal-new-condition"><i class="fas fa-plus"></i>&nbsp;Add New Condition</button> -->
             </div>
         </div>
         <!-- .rules -->
@@ -74,53 +107,47 @@
                         <h3 class="modal-title">New Condition</h3>
                     </div>
 
-                    <div class="modal-body">
+                    <div class="modal-body mp-0">
                         <!-- Steps starts here -->
                         <div class="requestwizard">
                             <div class="setup-panel row">
-                                <div class="requestwizard-step col-4">
-                                    <a href="#step-1" class="btn btn-nav btn-primary btn-circle"><i class="fas fa-th-list"></i></a>
-                                    <p>Choose Type</p><!-- search, boolean, author meta -->
+                                <div class="requestwizard-step /* col-4 */ col-6">
+                                    <a href="#condition-step-1" class="btn btn-nav btn-primary btn-circle"><i class="fas fa-th-list"></i></a>
+                                    <p class="mt-2">Choose Type</p><!-- search, boolean, author meta -->
                                 </div>
-                                <div class="requestwizard-step col-4">
-                                    <a href="#step-2" class="btn btn-nav btn-default btn-circle" disabled="disabled"><i class="fas fa-wrench"></i></a>
-                                    <p>Configure</p>
+                                <div class="requestwizard-step /* col-4 */ col-6">
+                                    <a href="#condition-step-2" class="btn btn-nav btn-default btn-circle" disabled="disabled"><i class="fas fa-wrench"></i></a>
+                                    <p class="mt-2">Configure</p>
                                 </div>
-                                <div class="requestwizard-step col-4">
-                                    <a href="#step-3" class="btn btn-nav btn-default btn-circle" disabled="disabled"><i class="far fa-check-square"></i></a>
-                                    <p>Summary</p>
-                                </div>
+                                <!-- <div class="requestwizard-step col-4">
+                                    <a href="#condition-step-3" class="btn btn-nav btn-default btn-circle" disabled="disabled"><i class="far fa-check-square"></i></a>
+                                    <p class="mt-2">Summary</p>
+                                </div> -->
                             </div>
                         </div>
                     </div>
 
-                    <div class="setup-content" id="step-1">
+                    <div class="setup-content" id="condition-step-1">
                         <div class="modal-body">
                             <div class="row">
-                                <ul class="col-xs-12 col-md-3 setup-overview list-group list-group-flush mb-2">
-                                    <li class="list-group-item small">List Item</li>
-                                    <li class="list-group-item small">List Item</li>
-                                    <li class="list-group-item small">List Item</li>
-                                    <li class="list-group-item small">List Item</li>
-                                </ul>
-                                <div class="col-xs-12 col-md-9">
+                                <div class="col-12">
                                     <div class="row">
-                                        <div class="setup-selection-cont col-xs-12 col-sm-4 mb-2" data-selection="search" data-check>
-                                            <div class="setup-selection">
+                                        <div class="setup-selection-cont col-xs-12 col-sm-4 mb-2" data-selection="search">
+                                            <div class="setup-selection" data-check>
                                                 <i class="fas fa-search"></i>
                                                 <div class="label">Search</div>
                                                 <small class="label-meta">Search keywords/regex in the domain, url, title, body, and author's username</small>
                                             </div>
                                         </div>
-                                        <div class="setup-selection-cont col-xs-12 col-sm-4 mb-2" data-selection="author-meta" data-check>
-                                            <div class="setup-selection">
+                                        <div class="setup-selection-cont col-xs-12 col-sm-4 mb-2" data-selection="author">
+                                            <div class="setup-selection" data-check>
                                                 <i class="fas fa-user"></i>
                                                 <div class="label">Author</div>
                                                 <small class="label-meta">Match conditions against author karma, account age, gold status, and moderator status</small>
                                             </div>
                                         </div>
-                                        <div class="setup-selection-cont col-xs-12 col-sm-4 mb-2" data-selection="post-meta" data-check>
-                                            <div class="setup-selection">
+                                        <div class="setup-selection-cont col-xs-12 col-sm-4 mb-2" data-selection="post">
+                                            <div class="setup-selection" data-check>
                                                 <i class="fas fa-link"></i>
                                                 <div class="label">Post/Comment</div>
                                                 <small class="label-meta">Match against number of reports, body length, if the post is OC, and top level comments</small>
@@ -131,680 +158,249 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button><button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                            <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary nextBtn pull-right setup-btn" type="button" disabled>Next</button>
                         </div>
                     </div>
 
-                    <div class="setup-content" id="step-2">
+                    <div class="setup-content" id="condition-step-2">
+                        <div class="modal-body" data-selection-content="search">
+                            <label class="d-block text-center">Match this search against:</label>
+
+                            <small class="d-flex flex-row justify-content-center">
+                                <div class="custom-control custom-checkbox custom-checkbox-inline mr-2">
+                                    <input type="checkbox" class="custom-control-input match-domain" id="match-domain" data-check />
+                                    <label class="custom-control-label" for="match-domain">Domain</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-checkbox-inline mr-2">
+                                    <input type="checkbox" class="custom-control-input match-domain" id="match-url" data-check />
+                                    <label class="custom-control-label" for="match-url">URL</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-checkbox-inline mr-2">
+                                    <input type="checkbox" class="custom-control-input match-domain" id="match-title" data-check />
+                                    <label class="custom-control-label" for="match-title">Title</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-checkbox-inline mr-2">
+                                    <input type="checkbox" class="custom-control-input match-domain" id="match-body" data-check />
+                                    <label class="custom-control-label" for="match-body">Body</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-checkbox-inline mr-2">
+                                    <input type="checkbox" class="custom-control-input match-domain" id="match-username" data-check />
+                                    <label class="custom-control-label" for="match-username">Username</label>
+                                </div>
+                            </small>
+
+                            <hr />
+
+                            <!-- Search -->
+                            <div class="check-cont" data-type="search">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-6">
+                                        <div class="form-group mt-2">
+                                            <select class="form-control hf" id="search-matchtype" data-check >
+                                                <option value="includes-word">includes-word</option>
+                                                <option value="includes" selected>includes</option>
+                                                <option value="starts-with">starts-with</option>
+                                                <option value="ends-with">ends-with</option>
+                                                <option value="full-exact">full-exact</option>
+                                            </select>
+                                            <small class="text-muted d-flex flex-row mt-2 justify-content-center">
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline mr-2">
+                                                    <input type="checkbox" class="custom-control-input" id="search-inverse" data-check />
+                                                    <label class="custom-control-label" for="search-inverse">Inverse</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline mr-2">
+                                                    <input type="checkbox" class="custom-control-input" id="search-casesensitive" data-check />
+                                                    <label class="custom-control-label" for="search-casesensitive">Case-sensitive</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                                    <input type="checkbox" class="custom-control-input" id="search-regex" data-check />
+                                                    <label class="custom-control-label" for="search-regex">RegEx</label>
+                                                </div>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Search Input -->
+                                    <div class="col-xs-12 col-md-6">
+                                        <div class="form-group mt-2" id="search-input-simple-cont">
+                                            <input type="text" class="form-control" id="search-input-simple" data-role="tagsinput" data-check />
+                                            <small class="form-text text-muted">The rule will be applied to submissions which include the above keywords</small>
+                                            <small class="form-text text-muted">Enter title match strings and press return, e.g. <code>shitpost</code>, <code>buzzfeed</code></small>
+                                        </div>
+                                        <div class="form-group mt-2" id="search-input-regex-cont">
+                                            <textarea class="form-control" id="search-input-regex" rows=5 data-check ></textarea>
+                                            <small class="form-text text-muted">The rule will be applied to submissions which include the above regular expressions</small>
+                                            <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>number \d will [fool|astound|astonish] [you|u]!+</code></small>
+                                        </div>
+                                    </div>
+                                    <!-- ./Search Input -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Search -->
+
+                        <!-- Author -->
+                        <div class="modal-body" data-selection-content="author">
+                            <div class="row">
+
+                                <ul data-cont="author-cont" class="col-xs-12 col-md-4 setup-overview list-group list-group-flush mb-2" id="author-selection">
+                                    <li data-check data-selection="author-karma" class="list-group-item">Account Karma<small class="d-block">Search operators against total karma</small></li>
+                                    <li data-check data-selection="author-age" class="list-group-item">Account Age<small class="d-block">Search operators against time since account creation</small></li>
+                                    <li data-check data-selection="author-type-gold" class="list-group-item">Gold Status<small class="d-block">Boolean whether user has Gold subscription</small></li>
+                                    <li data-check data-selection="author-type-mod" class="list-group-item">Mod Status<small class="d-block">Boolean whether user is a mod of your subreddit</small></li>
+                                </ul>
+
+                                <div class="col-xs-12 col-md-8">
+                                    <div class="check-cont" data-type="author">
+
+                                        <!-- Karma -->
+                                        <div class="author-cont d-none" id="author-karma-cont">
+                                                <label for="author-karma-value" >Account Karma</label>
+                                                <div class="d-flex align-items-center">
+                                                <div class="p-2">
+                                                    <select class="form-control" id="author-karma-logic" data-check>
+                                                        <option value=">">></option>
+                                                        <option value=">=">>=</option>
+                                                        <option value="<="><=</option>
+                                                        <option value="<"><</option>
+                                                    </select>
+                                                </div>
+                                                <div class="p-2">
+                                                    <input type="number" class="form-control" placeholder=0 id="author-karma-value" data-check />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Age -->
+                                        <div class="author-cont d-none" id="author-age-cont">
+                                                <label for="author-age-value" >Account Age (days)</label>
+                                                <div class="d-flex align-items-center">
+                                                <div class="p-2">
+                                                    <select class="form-control" id="author-age-logic" data-check >
+                                                        <option value=">">></option>
+                                                        <option value=">=">>=</option>
+                                                        <option value="<="><=</option>
+                                                        <option value="<"><</option>
+                                                    </select>
+                                                </div>
+                                                <div class="p-2">
+                                                    <input type="number" class="form-control" placeholder=0 id="author-age-value" data-check />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Gold Status -->
+                                        <div class="author-cont d-none" id="author-type-gold-cont">
+                                            <div class="d-flex align-items-center p-2" data-type="author-type-gold">
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                                    <input type="checkbox" class="custom-control-input" id="author-type-gold" data-check />
+                                                    <label class="custom-control-label" for="author-type-gold">Only applies to users with Gold membership</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Mod Status -->
+                                        <div class="author-cont d-none" id="author-type-mod-cont">
+                                            <div class="d-flex align-items-center p-2" data-type="author-type-mod">
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                                    <input type="checkbox" class="custom-control-input" id="author-type-mod" data-check />
+                                                    <label class="custom-control-label" for="author-type-mod">Only applies to moderators of the sub</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- ./Author -->
+
+                        <!-- Post/Comment Meta -->
+                        <div class="modal-body" data-selection-content="post">
+                            <div class="row">
+
+                                <ul data-cont="post-cont" class="col-xs-12 col-md-4 setup-overview list-group list-group-flush mb-2" id="post-selection">
+                                    <li data-check data-selection="post-reports" class="list-group-item">Reports<small class="d-block">Fire when enough reports are made on this submission</small></li>
+                                    <li data-check data-selection="post-length" class="list-group-item">Body Length<small class="d-block">Search operators against length of text in body</small></li>
+                                    <li data-check data-selection="post-oc" class="list-group-item">OC Status<small class="d-block">Boolean whether the post is marked as OC</small></li>
+                                    <li data-check data-selection="post-toplevel" class="list-group-item">Top-Level Comments<small class="d-block">Boolean whether the comment is top-level</small></li>
+                                </ul>
+
+                                <div class="col-xs-12 col-md-8">
+                                    <div class="check-cont" data-type="post">
+
+                                        <!-- Reports -->
+                                        <div class="post-cont d-none" id="post-reports-cont">
+                                            <label for="post-reports-value" >Number of reports</label>
+                                            <div class="d-flex align-items-center">
+                                                <div class="p-2">
+                                                    <input type="number" class="form-control" placeholder=0 id="post-reports-value" data-check />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Body Length -->
+                                        <div class="post-cont d-none" id="post-length-cont">
+                                            <label for="post-length-value" >Body length</label>
+                                            <div class="d-flex align-items-center">
+                                                <div class="p-2">
+                                                    <select class="form-control" id="post-length-logic" data-check >
+                                                        <option value=">">></option>
+                                                        <option value=">=">>=</option>
+                                                        <option value="<="><=</option>
+                                                        <option value="<"><</option>
+                                                    </select>
+                                                </div>
+                                                <div class="p-2">
+                                                    <input type="number" class="form-control" placeholder=0 id="post-length-value" data-check />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- OC Status -->
+                                        <div class="post-cont d-none" id="post-oc-cont">
+                                            <div class="d-flex align-items-center p-2" data-type="post-oc">
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                                    <input type="checkbox" class="custom-control-input" id="post-oc" data-check />
+                                                    <label class="custom-control-label" for="post-oc">Only applies to posts marked as OC</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Top-Level Comments -->
+                                        <div class="post-cont d-none" id="post-toplevel-cont">
+                                            <div class="d-flex align-items-center p-2" data-type="post-toplevel">
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                                    <input type="checkbox" class="custom-control-input" id="post-toplevel" data-check />
+                                                    <label class="custom-control-label" for="post-toplevel">Only applies to top-level comments</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Post/Comment Meta -->
+
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button><button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                            <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary setup-btn finishBtn pull-right" type="button" disabled>Finish</button>
                         </div>
                     </div>
 
-                    <div class="setup-content" id="step-3">
+                    <div class="setup-content" id="condition-step-3">
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button><button class="btn btn-success finishBtn pull-right" type="button">Finish</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-
-
-        <!-- .test -->
-        <div class="modal fade" id="modal-new-rule" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="modal-title">New Rule</div>
-                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <!-- rule-title -->
-                            <div class="form-group check-cont" data-valid=1 data-type="title">
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <label for="rule-title">Rule Title</label>
-                                <input type="text" class="form-control" id="rule-title" placeholder="Enter a descriptive title" data-check />
-                                <small class="form-text text-muted">This is a way for you to quickly find rules</small>
-                            </div>
-                            <!-- .rule-title -->
-
-                            <hr />
-
-                            <!-- thing-types -->
-                            <div class="form-group check-cont" data-valid=1 data-type="thing-type" data-required>
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <label>"Thing" Types</label>
-
-                                <div class="text-center">
-                                    <input type="checkbox" name="thing-types" id="thing-type-link" value="link" data-check checked />
-
-                                    <label class="col col-md-4 col-12 thing-type" for="thing-type-link">
-                                            <span class="validation-child selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                            <span class="validation-child not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                            <h1><i class="fas fa-link"></i></h1>Link Submissions
-                                            <small class="form-text text-muted">Apply this rule to all incoming links posted to your sub</small>
-                                    </label>
-
-                                    <input type="checkbox" name="thing-types" id="thing-type-text" value="text" data-check checked />
-
-                                    <label class="col col-md-4 col-12 thing-type" for="thing-type-text">
-                                            <span class="validation-child selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                            <span class="validation-child not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                            <h1><i class="far fa-file-alt"></i></h1>Text Submissions
-                                            <small class="form-text text-muted">Apply this rule to all incoming text posts submitted to your sub</small>
-                                    </label>
-
-                                    <input type="checkbox" name="thing-types" id="thing-type-comment" value="comment" data-check />
-
-                                    <label class="col col-md-4 col-12 thing-type" for="thing-type-comment">
-                                            <span class="validation-child selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                            <span class="validation-child not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                            <h1><i class="far fa-comment"></i></h1>Comment Submissions
-                                            <small class="form-text text-muted">Apply this rule to all incoming comments posted to your sub</small>
-                                    </label>
-
-                                </div>
-                                <small class="form-text text-muted">Select the submissions to which your rule should be applied</small>
-                            </div>
-                            <!-- .thing-types -->
-
-                            <hr />
-
-                            <!-- thing-matches -->
-                            <!-- thing-domains -->
-                            <div class="check-cont" data-valid="false" data-type="thing-domains">
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                <label for="thing-domains d-block">Domain Matches</label>
-
-                                <small class="text-muted">
-                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
-                                        <input type="checkbox" class="custom-control-input" id="thing-domains-inverse" data-check />
-                                        <label class="custom-control-label" for="thing-domains-inverse">Inverse</label>
-                                    </div>
-                                </small>
-
-                                <ul class="nav nav-tabs" id="tab-domains" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#tab-domains-simple" role="tab" data-tab="simple">Simple Match</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#tab-domains-regex" role="tab" data-tab="regex">RegEx Match</a>
-                                    </li>
-                                </ul>
-
-
-                                <div class="tab-content">
-                                    <!-- domains (regular) -->
-                                    <div id="tab-domains-simple" class="tab-pane show active" role="tabpanel">
-
-                                        <div class="form-group mt-2">
-                                            <input type="text" class="form-control" id="thing-domains" data-role="tagsinput" data-check />
-                                            <small class="form-text text-muted">The rule will be applied to domains which include the following keywords</small>
-                                            <small class="form-text text-muted">Enter domain match strings and press return, e.g. <code>example.com</code>, <code>m.foo.us</code>, <code>twitter</code></small>
-                                        </div>
-                                    </div>
-                                    <!-- .domains (regular) -->
-
-                                    <!-- domains (regex) -->
-                                    <div id="tab-domains-regex" class="tab-pane" role="tabpanel">
-                                        <div class="form-group mt-2">
-                                            <textarea class="form-control" id="thing-domains-regex" rows=5 data-check ></textarea>
-                                            <small class="form-text text-muted">The rule will be applied to domains which include the following regular expressions</small>
-                                            <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>imgur\\.com/[A-Za-z0-9]{5,8}$</code></small>
-                                        </div>
-                                    </div>
-                                    <!-- .domains (regex) -->
-                                </div>
-                            </div>
-                            <!-- .thing-domains -->
-
-                            <hr />
-
-                            <!-- thing-urls -->
-                            <div class="check-cont" data-valid="false" data-type="thing-urls">
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                <label for="thing-urls d-block">URL Matches</label>
-
-                                <small class="text-muted">
-                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
-                                        <input type="checkbox" class="custom-control-input" id="thing-urls-inverse" data-check />
-                                        <label class="custom-control-label" for="thing-urls-inverse">Inverse</label>
-                                    </div>
-                                </small>
-
-                                <ul class="nav nav-tabs" id="tab-urls" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#tab-urls-simple" role="tab" data-tab="simple">Simple Match</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#tab-urls-regex" role="tab" data-tab="regex">RegEx Match</a>
-                                    </li>
-                                </ul>
-
-
-                                <div class="tab-content">
-                                    <!-- urls (regular) -->
-                                    <div id="tab-urls-simple" class="tab-pane show active" role="tabpanel">
-
-                                        <div class="form-group mt-2">
-                                            <input type="text" class="form-control" id="thing-urls" data-role="tagsinput" data-check />
-                                            <small class="form-text text-muted">The rule will be applied to urls which include the following keywords</small>
-                                            <small class="form-text text-muted">Enter domain match strings and press return, e.g. <code>example.com</code>, <code>m.foo.us</code>, <code>twitter</code></small>
-                                        </div>
-                                    </div>
-                                    <!-- .urls (regular) -->
-
-                                    <!-- urls (regex) -->
-                                    <div id="tab-urls-regex" class="tab-pane" role="tabpanel">
-                                        <div class="form-group mt-2">
-                                            <textarea class="form-control" id="thing-urls-regex" rows=5 data-check ></textarea>
-                                            <small class="form-text text-muted">The rule will be applied to urls which include the following regular expressions</small>
-                                            <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>imgur\\.com/[A-Za-z0-9]{5,8}$</code></small>
-                                        </div>
-                                    </div>
-                                    <!-- .urls (regex) -->
-                                </div>
-                            </div>
-                            <!-- .thing-urls -->
-
-                            <hr />
-
-                            <!-- thing-title -->
-                            <div class="check-cont" data-valid="false" data-type="thing-titles">
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                <label for="thing-titles d-block">Title Matches</label>
-
-                                <small class="text-muted">
-                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
-                                        <input type="checkbox" class="custom-control-input" id="thing-titles-inverse" data-check />
-                                        <label class="custom-control-label" for="thing-titles-inverse">Inverse</label>
-                                    </div>
-                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right mr-2">
-                                        <input type="checkbox" class="custom-control-input" id="thing-titles-casesensitive" data-check />
-                                        <label class="custom-control-label" for="thing-titles-casesensitive">Case-sensitive</label>
-                                    </div>
-                                </small>
-
-                                <div class="form-group mt-2">
-                                    <select class="form-control" id="thing-titles-matchtype" data-check >
-                                        <option value="includes-word">includes-word</option>
-                                        <option value="includes" selected>includes</option>
-                                        <option value="starts-with">starts-with</option>
-                                        <option value="ends-with">ends-with</option>
-                                        <option value="full-exact">full-exact</option>
-                                    </select>
-                                </div>
-
-                                <ul class="nav nav-tabs" id="tab-titles" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#tab-titles-simple" role="tab" data-tab="simple">Simple Match</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#tab-titles-regex" role="tab" data-tab="regex">RegEx Match</a>
-                                    </li>
-                                </ul>
-
-                                <div class="tab-content">
-                                    <!-- titles (regular) -->
-                                    <div id="tab-titles-simple" class="tab-pane show active" role="tabpanel">
-
-                                        <div class="form-group mt-2">
-                                            <input type="text" class="form-control" id="thing-titles" data-role="tagsinput" data-check />
-                                            <small class="form-text text-muted">The rule will be applied to titles which include the following keywords</small>
-                                            <small class="form-text text-muted">Enter title match strings and press return, e.g. <code>shitpost</code></small>
-                                        </div>
-                                    </div>
-                                    <!-- .titles (regular) -->
-
-                                    <!-- titles (regex) -->
-                                    <div id="tab-titles-regex" class="tab-pane" role="tabpanel">
-                                        <div class="form-group mt-2">
-                                            <textarea class="form-control" id="thing-titles-regex" rows=5 data-check ></textarea>
-                                            <small class="form-text text-muted">The rule will be applied to titles which include the following regular expressions</small>
-                                            <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>number \d will [fool|astound|astonish] [you|u]!+</code></small>
-                                        </div>
-                                    </div>
-                                    <!-- .titles (regex) -->
-                                </div>
-                            </div>
-                            <!-- .thing-title -->
-
-                            <hr />
-
-                            <!-- thing-body -->
-                            <div class="check-cont" data-valid="false" data-type="thing-bodies">
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                <label for="thing-bodies d-block">Body Matches</label>
-
-                                <small class="text-muted">
-                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
-                                        <input type="checkbox" class="custom-control-input" id="thing-bodies-inverse" data-check />
-                                        <label class="custom-control-label" for="thing-bodies-inverse">Inverse</label>
-                                    </div>
-                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right mr-2">
-                                        <input type="checkbox" class="custom-control-input" id="thing-bodies-casesensitive" data-check />
-                                        <label class="custom-control-label" for="thing-bodies-casesensitive">Case-sensitive</label>
-                                    </div>
-                                </small>
-
-                                <div class="form-group mt-2">
-                                    <select class="form-control" id="thing-bodies-matchtype" data-check >
-                                        <option value="includes-word">includes-word</option>
-                                        <option value="includes" selected>includes</option>
-                                        <option value="starts-with">starts-with</option>
-                                        <option value="ends-with">ends-with</option>
-                                        <option value="full-exact">full-exact</option>
-                                    </select>
-                                </div>
-
-                                <ul class="nav nav-tabs" id="tab-bodies" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#tab-bodies-simple" role="tab" data-tab="simple">Simple Match</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#tab-bodies-regex" role="tab" data-tab="regex">RegEx Match</a>
-                                    </li>
-                                </ul>
-
-                                <div class="tab-content">
-                                    <!-- bodies (regular) -->
-                                    <div id="tab-bodies-simple" class="tab-pane show active" role="tabpanel">
-
-                                        <div class="form-group mt-2">
-                                            <input type="text" class="form-control" id="thing-bodies" data-role="tagsinput" data-check />
-                                            <small class="form-text text-muted">The rule will be applied to text posts or comments where the body includes the following keywords</small>
-                                            <small class="form-text text-muted">Enter body match strings and press return, e.g. <code>dae?</code>, <code>mmmm real good shiit</code></small>
-                                        </div>
-                                    </div>
-                                    <!-- .bodies (regular) -->
-
-                                    <!-- bodies (regex) -->
-                                    <div id="tab-bodies-regex" class="tab-pane" role="tabpanel">
-                                        <div class="form-group mt-2">
-                                            <textarea class="form-control" id="thing-bodies-regex" rows=5 data-check ></textarea>
-                                            <small class="form-text text-muted">The rule will be applied to post/comment text bodies which include the following regular expressions</small>
-                                            <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>number \d will [fool|astound|astonish] [you|u]!+</code></small>
-                                        </div>
-                                    </div>
-                                    <!-- .bodies (regex) -->
-                                </div>
-                            </div>
-                            <!-- .thing-body -->
-                            <!-- .thing-matches -->
-
-                            <hr />
-
-                            <!-- user matches -->
-                            <!-- author-usernames -->
-                            <div class="check-cont" data-valid="false" data-type="author-usernames">
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                <label for="author-usernames d-block">Username Matches</label>
-
-                                <small class="text-muted">
-                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
-                                        <input type="checkbox" class="custom-control-input" id="author-usernames-inverse" data-check />
-                                        <label class="custom-control-label" for="author-usernames-inverse">Inverse</label>
-                                    </div>
-                                </small>
-
-                                <div class="form-group mt-2">
-                                    <select class="form-control" id="author-usernames-matchtype" data-check >
-                                        <option value="includes-word">includes-word</option>
-                                        <option value="includes" selected>includes</option>
-                                        <option value="starts-with">starts-with</option>
-                                        <option value="ends-with">ends-with</option>
-                                        <option value="full-exact">full-exact</option>
-                                    </select>
-                                </div>
-
-                                <ul class="nav nav-tabs" id="tab-usernames" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#tab-usernames-simple" role="tab" data-tab="simple">Simple Match</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#tab-usernames-regex" role="tab" data-tab="regex">RegEx Match</a>
-                                    </li>
-                                </ul>
-
-
-                                <div class="tab-content">
-                                    <!-- usernames (regular) -->
-                                    <div id="tab-usernames-simple" class="tab-pane show active" role="tabpanel">
-
-                                        <div class="form-group mt-2">
-                                            <input type="text" class="form-control" id="author-usernames" data-role="tagsinput" data-check />
-                                            <small class="form-text text-muted">The rule will be applied to usernames which include the following keywords</small>
-                                            <small class="form-text text-muted">Enter username match strings and press return, e.g. <code>69</code>, <code>gunner</code>, <code>spez</code></small>
-                                        </div>
-                                    </div>
-                                    <!-- .usernames (regular) -->
-
-                                    <!-- usernames (regex) -->
-                                    <div id="tab-usernames-regex" class="tab-pane" role="tabpanel">
-                                        <div class="form-group mt-2">
-                                            <textarea class="form-control" id="author-usernames-regex" rows=5 data-check ></textarea>
-                                            <small class="form-text text-muted">The rule will be applied to usernames which include the following regular expressions</small>
-                                            <small class="form-text text-muted">This is specifically for regex matches - place each rule on a new line, e.g. <code>69|8008|666$</code></small>
-                                        </div>
-                                    </div>
-                                    <!-- .usernames (regex) -->
-                                </div>
-                            </div>
-                            <!-- .author-usernames -->
-
-                            <hr />
-
-                            <!-- meta -->
-                            <label>Other Conditions</label>
-                            <div class="check-cont d-flex align-items-center" data-type="author-karma">
-                                <div class="p-2 col-1">
-                                    <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                    <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                    <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                </div>
-                                <div class="p-2 col-3">Account Karma</div>
-                                <div class="p-2">
-                                    <select class="form-control" id="author-karma-logic" data-check >
-                                        <option value=">">></option>
-                                        <option value=">=">>=</option>
-                                        <option value="<="><=</option>
-                                        <option value="<"><</option>
-                                    </select>
-                                </div>
-                                <div class="p-2">
-                                    <input type="number" class="form-control" placeholder=0 id="author-karma-value" data-check />
-                                </div>
-                            </div>
-
-                            <div class="check-cont d-flex align-items-center" data-type="author-age">
-                                <div class="p-2 col-1">
-                                    <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                    <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                    <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                </div>
-                                <div class="p-2 col-3">Account Age (days)</div>
-                                <div class="p-2">
-                                    <select class="form-control" id="author-age-logic" data-check >
-                                        <option value=">">></option>
-                                        <option value=">=">>=</option>
-                                        <option value="<="><=</option>
-                                        <option value="<"><</option>
-                                    </select>
-                                </div>
-                                <div class="p-2">
-                                    <input type="number" class="form-control" placeholder=0 id="author-age-value" data-check />
-                                </div>
-                            </div>
-
-                            <div class="check-cont d-flex align-items-center" data-type="other-reports">
-                                <div class="p-2 col-1">
-                                    <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                    <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                    <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                </div>
-                                <div class="p-2 col-3">Number of reports</div>
-                                <div class="p-2">
-                                    <input type="number" class="form-control" placeholder=0 id="other-reports" data-check />
-                                </div>
-                            </div>
-
-                            <div class="check-cont d-flex align-items-center" data-type="other-body-length">
-                                <div class="p-2 col-1">
-                                    <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                    <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                    <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                </div>
-                                <div class="p-2 col-3">Body length</div>
-                                <div class="p-2">
-                                    <select class="form-control" id="other-body-length-logic" data-check >
-                                        <option value="longer_than">longer than</option>
-                                        <option value="shorter_than">shorter than</option>
-                                    </select>
-                                </div>
-                                <div class="p-2">
-                                    <input type="number" class="form-control" placeholder=0 id="other-body-length-value" data-check />
-                                </div>
-                            </div>
-
-                            <div class="check-cont bool d-flex align-items-center p-2" data-type="other-oc">
-                                <div class="custom-control custom-checkbox custom-checkbox-inline">
-                                    <input type="checkbox" class="custom-control-input" id="other-oc" data-check />
-                                    <label class="custom-control-label" for="other-oc">Only applies to OC (posts only)</label>
-                                </div>
-                            </div>
-
-                            <div class="check-cont bool d-flex align-items-center p-2" data-type="other-toplevel">
-                                <div class="custom-control custom-checkbox custom-checkbox-inline">
-                                    <input type="checkbox" class="custom-control-input" id="other-toplevel" data-check />
-                                    <label class="custom-control-label" for="other-toplevel">Only applies to top-level comments (comments only)</label>
-                                </div>
-                            </div>
-
-                            <div class="check-cont bool d-flex align-items-center p-2" data-type="author-type-gold">
-                                <div class="custom-control custom-checkbox custom-checkbox-inline">
-                                    <input type="checkbox" class="custom-control-input" id="author-type-gold" data-check />
-                                    <label class="custom-control-label" for="author-type-gold">Only applies to users with Gold membership</label>
-                                </div>
-                            </div>
-
-                            <div class="check-cont bool d-flex align-items-center p-2" data-type="author-type-mod">
-                                <div class="custom-control custom-checkbox custom-checkbox-inline">
-                                    <input type="checkbox" class="custom-control-input" id="author-type-mod" data-check />
-                                    <label class="custom-control-label" for="author-type-mod">Only applies to moderators of the sub</label>
-                                </div>
-                            </div>
-                            <!-- .meta -->
-                            <!-- .user matches -->
-
-                            <hr />
-
-                            <!-- actions -->
-                            <!-- moderate -->
-                            <div class="form-group check-cont" data-valid=1 data-type="actions-action" data-required>
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                <label>Actions</label>
-
-                                <div class="form-group mt-2">
-                                    <select class="form-control" id="actions-action" data-check>
-                                        <option value="default" selected><i class="fas fa-fw fas fa-check"></i>&nbsp;No action</option>
-                                        <option value="approve"><i class="fas fa-fw fas fa-check"></i>&nbsp;Approve</option>
-                                        <option value="remove"><i class="fas fa-fw fas fa-trash"></i>&nbsp;Remove</option>
-                                        <option value="spam"><i class="fas fa-fw fas fa-thumbs"></i>&nbsp;Spam</option>
-                                        <option value="filter"><i class="fas fa-fw fas fa-filter"></i>&nbsp;Filter</option>
-                                        <option value="report"><i class="fas fa-fw fas fa-flag"></i>&nbsp;Report</option>
-                                    </select>
-                                </div>
-                                <small class="form-text text-muted">Select the actions to take when a submission fulfils the logic</small>
-                            </div>
-                            <!-- .moderate -->
-
-                            <!-- reason -->
-                            <div class="form-group check-cont" data-valid=2 data-type="actions-reason">
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                <label for="actions-reason">Reason</label>
-                                <input type="text" class="form-control" name="reason" id="actions-reason" placeholder="Specify an action reason" data-check />
-                                <small class="form-text text-muted">This will add a comment to the automoderator actions</small>
-                            </div>
-                            <!-- .reason -->
-
-                            <hr />
-
-                            <!-- comment -->
-                            <div class="check-cont" data-valid="false" data-type="actions-comment">
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                <label for="thing-titles d-block">Action: Leave Comment</label>
-
-                                <small class="text-muted">
-                                    <div class="custom-control custom-checkbox custom-checkbox-inline float-right">
-                                        <input type="checkbox" class="custom-control-input" id="actions-comment-sticky" data-check />
-                                        <label class="custom-control-label" for="actions-comment-sticky">Sticky Comment</label>
-                                    </div>
-                                </small>
-
-                                <div class="form-group mt-2">
-                                    <textarea class="form-control" id="actions-comment" placeholder="Comment response" rows=5 data-check ></textarea>
-                                    <small class="form-text text-muted">This field accepts multi-line entry in reddit markdown</small>
-                                </div>
-                            </div>
-                            <!-- .comment -->
-
-                            <hr />
-
-                            <!-- modmail -->
-                            <div class="check-cont" data-valid="false" data-type="actions-modmail">
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                <label for="thing-titles d-block">Action: Send Modmail</label>
-
-                                <div class="form-group mt-2">
-                                    <input type="text" class="form-control" id="actions-modmail-subject" placeholder="Message Subject" data-check />
-                                    <textarea class="form-control mt-1" id="actions-modmail" placeholder="Modmail response" rows=5 data-check ></textarea>
-                                    <small class="form-text text-muted">This field accepts multi-line entry in reddit markdown</small>
-                                </div>
-                            </div>
-                            <!-- .modmail -->
-
-                            <hr />
-
-                            <!-- message -->
-                            <div class="check-cont" data-valid="false" data-type="actions-message">
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                <label for="thing-titles d-block">Action: Send Message</label>
-
-                                <div class="form-group mt-2">
-                                    <input type="text" class="form-control" id="actions-message-subject" placeholder="Message Subject" data-check />
-                                    <textarea class="form-control mt-1" id="actions-message" placeholder="Message response" rows=5 data-check ></textarea>
-                                    <small class="form-text text-muted">This field accepts multi-line entry in reddit markdown</small>
-                                </div>
-                            </div>
-                            <!-- .message -->
-
-                            <hr />
-
-                            <div class="check-cont bool d-flex align-items-center p-2" data-type="actions-sticky">
-                                <div class="custom-control custom-checkbox custom-checkbox-inline">
-                                    <input type="checkbox" class="custom-control-input" id="actions-sticky" data-check />
-                                    <label class="custom-control-label" for="actions-sticky">Make post sticky</label>
-                                </div>
-                            </div>
-
-                            <div class="check-cont bool d-flex align-items-center p-2" data-type="actions-nsfw">
-                                <div class="custom-control custom-checkbox custom-checkbox-inline">
-                                    <input type="checkbox" class="custom-control-input" id="actions-nsfw" data-check />
-                                    <label class="custom-control-label" for="actions-nsfw">Mark post as NSFW</label>
-                                </div>
-                            </div>
-
-                            <div class="check-cont bool d-flex align-items-center p-2" data-type="actions-spoiler">
-                                <div class="custom-control custom-checkbox custom-checkbox-inline">
-                                    <input type="checkbox" class="custom-control-input" id="actions-spoiler" data-check />
-                                    <label class="custom-control-label" for="actions-spoiler">Mark post as a spoiler</label>
-                                </div>
-                            </div>
-
-                            <div class="check-cont bool d-flex align-items-center p-2" data-type="actions-contest">
-                                <div class="custom-control custom-checkbox custom-checkbox-inline">
-                                    <input type="checkbox" class="custom-control-input" id="actions-contest" data-check />
-                                    <label class="custom-control-label" for="actions-contest">Set post to "contest" mode</label>
-                                </div>
-                            </div>
-
-                            <div class="check-cont bool d-flex align-items-center p-2" data-type="actions-oc">
-                                <div class="custom-control custom-checkbox custom-checkbox-inline">
-                                    <input type="checkbox" class="custom-control-input" id="actions-oc" data-check />
-                                    <label class="custom-control-label" for="actions-oc">Mark post as Original Content</label>
-                                </div>
-                            </div>
-
-                            <div class="check-cont bool d-flex align-items-center p-2" data-type="actions-locked">
-                                <div class="custom-control custom-checkbox custom-checkbox-inline">
-                                    <input type="checkbox" class="custom-control-input" id="actions-locked" data-check />
-                                    <label class="custom-control-label" for="actions-locked">Lock post</label>
-                                </div>
-                            </div>
-
-                            <hr />
-
-                            <div class="check-cont" data-valid="2" data-type="actions-suggested">
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                <label for="actions-suggested d-block">Set suggested sort</label>
-
-                                <div class="form-group">
-                                    <select class="form-control" id="actions-suggested" data-check >
-                                        <option value="default" selected>sub default</option>
-                                        <option value="best">best</option>
-                                        <option value="new">new</option>
-                                        <option value="qa">qa</option>
-                                        <option value="top">top</option>
-                                        <option value="controversial">controversial</option>
-                                        <option value="hot">hot</option>
-                                        <option value="old">old</option>
-                                        <option value="random">random</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <hr />
-
-                            <div class="check-cont" data-valid="2" data-type="actions-flair">
-                                <span class="validation selected"><i class="fas fa-fw fa-check-circle"></i></span>
-                                <span class="validation not-selected"><i class="fas fa-fw fa-times-circle"></i></span>
-                                <span class="validation ignore"><i class="fas fa-fw fa-circle"></i></span>
-                                <label for="d-block">Set post flair</label>
-
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="actions-flair-text" placeholder="Flair Text" data-check>
-                                    <input type="text" class="form-control mt-1" id="actions-flair-cssclass" placeholder="CSS Class (optional)" data-check>
-                                    <input type="text" class="form-control mt-1" id="actions-flair-templateid" placeholder="Template ID (optional)" data-check>
-                                </div>
-                            </div>
-
-                            <!-- .actions -->
-                        </form>
-
-                        <!--<hr />
-                        <label>Summary</label>
-                        <div class="container">
-                            <ul class="list-group" id="summary"></ul>
-                        </div>-->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" id="clear-values">Clear Values</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-success" id="add-rule">Add Rule</button>
-                        <button type="button" class="btn btn-success" id="edit-rule">Edit Rule</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- .new-rule-modal -->
-        <!-- .modals -->
+        </div>        
     </div>
 </body>
 </html>
