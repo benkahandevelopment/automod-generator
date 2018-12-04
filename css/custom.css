@@ -205,12 +205,16 @@ select.form-control.hf {
     border-right: 1px solid #ced4da;
 }
 
-.rules-item-title { padding: 0; }
+.title-cont label, .title-cont small, .rules-item-title {
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
 .rules-item-title:focus {
-    border-color: rgba(0,0,0,0);
+    /* border-color: rgba(0,0,0,0);
     border-bottom-color: #ced4da;
     -webkit-box-shadow: none;
-    box-shadow: none;
+    box-shadow: none; */
 }
 
 .rules-item-title:not(:focus) {
@@ -220,6 +224,14 @@ select.form-control.hf {
     border-left-color: rgba(0,0,0,0);
     border-bottom-color: #ced4da;
 }
+
+.btn-new {
+    background: none;
+    border: 1px dashed #ced4da;
+    color: #ced4da;
+}
+
+
 
 /* Tagsinput */
 .bootstrap-tagsinput {

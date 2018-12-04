@@ -59,34 +59,50 @@
         <div class="row">
             <div class="col">
                 <ul class="list-group" id="rules">
-                    <li class="list-group-item rules-item2">
-                        <div class="form-row">
+                    <li class="list-group-item rules-item2" data-id="1">
+                        <div class="d-flex justify-content-left">
 
-                            <div class="form-group col-2 text-center">
-                                <!-- Row modification buttons -->
+                            <div class="form-group">
+                                <!-- Type buttons -->
                                 <div class="btn-group">
-                                    <button type="button" class="form-control btn btn-warning" data-item-btn="edit"><i class="fas fa-fw fa-edit"></i></button>
-                                    <button type="button" class="form-control btn btn-danger" data-item-btn="delete"><i class="fas fa-fw fa-trash"></i></button>
+                                    <div class="form-control btn btn-success" data-type-btn="link"><i class="fas fa-link"></i></div>
+                                    <div class="form-control btn btn-primary" data-type-btn="post"><i class="far fa-file-alt"></i></div>
+                                    <div class="form-control btn btn-primary" data-type-btn="comment"><i class="far fa-comment"></i></div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group col-3 title-cont">
                                 <!-- Title input -->
+                                <label class="d-block">Rule title</label>
                                 <input class="form-control rules-item-title" placeholder="Enter a descriptive title" />
+                                <small class="text-muted d-block mt-2">This is so that your rule is easy to find in your automod configuration</small>
                             </div>
 
                             <div class="form-group">
                                 <!-- Conditions -->
-                                <ul class="rule-conditions list-group">
+                                <label class="d-block">Conditions</label>
+                                <small class="text-muted">Search for <span class="badge badge-primary search-label">links</span> which match <strong>all</strong> the following:</small>
+                                <ul class="rule-conditions pb-2 list-group mt-2">
                                 </ul>
-                                <button type="button" class="btn btn-primary new-condition-modal"><i class="fas fa-plus"></i>&nbsp;New Condition</button>
+                                <button type="button" class="btn btn-primary btn-new new-condition-modal"><i class="fas fa-plus"></i>&nbsp;New Condition</button>
+                                <small class="text-muted d-block mt-2">Add conditions that the submission must match in order to execute your specified actions</small>
                             </div>
 
                             <div class="form-group">
                                 <!-- Actions -->
-                                <ul class="rule-actions list-group">
+                                <label class="d-block">Actions</label>
+                                <small class="text-muted">Take the following actions on matching submissions:</small>
+                                <ul class="rule-actions pb-2 list-group mt-2">
                                 </ul>
-                                <button type="button" class="btn btn-primary"><i class="fas fa-plus"></i>&nbsp;New Action</button>
+                                <button type="button" class="btn btn-primary btn-new"><i class="fas fa-plus"></i>&nbsp;New Action</button>
+                                <small class="text-muted d-block mt-2">Create actions that will occur when the automoderator matches a submission</small>
+                            </div>
+
+                            <div class="form-group">
+                                <!-- Row modification buttons -->
+                                <div class="btn-group">
+                                    <button type="button" class="form-control btn btn-danger" data-item-btn="delete"><i class="fas fa-fw fa-trash"></i></button>
+                                </div>
                             </div>
 
                         </div>
@@ -167,7 +183,7 @@
                         <div class="modal-body" data-selection-content="search">
                             <label class="d-block text-center">Match this search against:</label>
 
-                            <small class="d-flex flex-row justify-content-center">
+                            <small class="d-flex flex-row justify-content-center" data-selection="match">
                                 <div class="custom-control custom-checkbox custom-checkbox-inline mr-2">
                                     <input type="checkbox" class="custom-control-input match-domain" id="match-domain" data-check />
                                     <label class="custom-control-label" for="match-domain">Domain</label>
@@ -389,13 +405,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button>
-                            <button class="btn btn-primary setup-btn finishBtn pull-right" type="button" disabled>Finish</button>
-                        </div>
-                    </div>
-
-                    <div class="setup-content" id="condition-step-3">
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button><button class="btn btn-success finishBtn pull-right" type="button">Finish</button>
+                            <button class="btn btn-success setup-btn pull-right finishBtn" data-btn-type="condition" type="button" disabled>Finish</button>
                         </div>
                     </div>
                 </div>

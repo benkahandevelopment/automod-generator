@@ -69,21 +69,7 @@ $(function(){
         var curStep = $(this).closest(".setup-content"),
             curStepBtn = curStep.attr("id"),
             nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-            isValid = true;
-
-        //validity checks here
-        isValid = validateStep(curStepBtn);
-
-        //remove existing errors
-        // $(".form-group").removeClass("has-error");
-
-        //iterate and do checks
-        // for(var i=0; i<curInputs.length; i++){
-        //     if (!curInputs[i].validity.valid){
-        //         isValid = false;
-        //         $(curInputs[i]).closest(".form-group").addClass("has-error");
-        //     }
-        // }
+            isValid = validateStep(curStepBtn);
 
         if (isValid)
             nextStepWizard.removeAttr('disabled').trigger('click');
@@ -118,9 +104,6 @@ $(function(){
         }
     })
 
-    /*
-    step 1
-     */
     $(".match-domain").change(function(){
         var checked = [];
         $(".match-domain").each(function(){
@@ -147,9 +130,132 @@ $(function(){
             $el.find(".setup-btn").first().attr("disabled", true);
     });
 
+    $(".finishBtn:not(disabled)").click(function(){
+        var type = $(this).attr("data-btn-type"),
+            $o = $(".rules-item2[data-id="+$(this).attr("data-id")+"] ul.rule-conditions"),
+            t = "",
+            data = {};
+
+        if(type=="condition"){
+            //type
+            var type = $(".setup-selection.active").first().parent().attr("data-selection");
+
+            if(type=="search"){
+                data.search = {};
+
+                //match
+                data.search.matches = [];
+                $("[data-selection=match] input[type=checkbox]").each(function(){
+                    if(($(this)).prop("checked")) data.search.matches.push($(this).attr("id").split("-")[1]);
+                });
+                t += "<span class='badge badge-primary'>" + data.search.matches.join("</span>, <span class='badge badge-primary'>") + "</span> fields which ";
+
+                //matchtype/inverse/regex
+                data.search.inverse = $("#search-inverse").prop("checked");
+                if(data.search.inverse === true) t += "<span class='badge badge-danger'>don't</span> ";
+                data.search.matchtype = $("#search-matchtype").val();
+                t += "<span class='badge badge-primary'>" + data.search.matchtype + "</span> ";
+                data.search.regex = $("#search-regex").prop("checked");
+
+                //keywords
+                if(data.search.regex === true) data.search.keywords = $("#search-input-regex").val().trim().split(/\n/).map(Function.prototype.call, String.prototype.trim);
+                    else data.search.keywords = $("#search-input-simple").val().trim().split(",").map(Function.prototype.call, String.prototype.trim);
+
+                t += "<span class='badge badge-primary'>" + data.search.keywords.length + " keyword" + s(data.search.keywords.length)  + "</span> ";
+                if(data.search.regex === true) t += "<span class='badge badge-primary'>RegEx</span> ";
+
+                //casesensitive
+                data.search.casesensitive = !data.search.regex && $("#search-casesensitive").prop("checked");
+                if(data.search.casesensitive === true) t += "<span class='badge badge-primary'>Case Sensitive</span> ";
+
+            }
+
+            else if(type=="author"){
+                data.author = {};
+
+                //match
+                data.author.match = $("#author-selection li.active:first").attr("data-selection").split("-").slice(1).join("-");
+
+                if(data.author.match=="karma"){
+                    data.author.logic = $("#author-karma-logic").val();
+                    data.author.value = $("#author-karma-value").val();
+                } else if(data.author.match=="age"){
+                    data.author.logic = $("#author-age-logic").val();
+                    data.author.value = $("#author-age-value").val();
+                }
+
+                if(data.author.match=="karma" || data.author.match=="age"){
+                    t += "submission author's <span class='badge badge-primary'>" + data.author.match + "</span> ";
+                    t += "is <span class='badge badge-secondary'>";
+                    if(data.author.logic==">") t += "greater than";
+                    if(data.author.logic==">=") t += "greater than or equal to";
+                    if(data.author.logic=="<=") t += "less than";
+                    if(data.author.logic=="<") t += "less than or equal to";
+                    t += "</span> <span class='badge badge-warning'>"+data.author.value+"</span> ";
+                } else if(data.author.match=="type-gold"){
+                    t += "submission author <span class='badge badge-primary'>has reddit gold</span> ";
+                } else if(data.author.match=="type-mod"){
+                    t += "submission author <span class='badge badge-primary'>is a moderator of this sub</span> ";
+                }
+            }
+
+            else if(type=="post"){
+                data.post = {};
+
+                //match
+                data.post.match = $("#post-selection li.active:first").attr("data-selection").split("-")[1];
+
+                if(data.post.match == "length"){
+                    data.post.logic = $("#post-length-logic").val();
+                    data.post.value = $("#post-length-value").val();
+
+                    t += "submission <span class='badge badge-primary'>text length</span> is <span class='badge badge-secondary'>";
+                    if(data.post.logic==">") t += "greater than";
+                        else if(data.post.logic==">=") t += "greater than or equal to";
+                        else if(data.post.logic=="<=") t += "less than";
+                        else if(data.post.logic=="<") t += "less than or equal to";
+                    t += "</span> <span class='badge badge-warning'>"+data.post.value+"</span> ";
+                } else if(data.post.match=="reports"){
+                    data.post.value = $("#post-reports-value").val();
+                    t += "submission has recevied <span class='badge badge-primary'>"+data.post.value+"+ reports</span> ";
+                } else if(data.post.match=="oc"){
+                    t += "submission is a post marked as <span class='badge badge-primary'>Original Content</span> ";
+                } else if(data.post.match=="toplevel"){
+                    t += "submission is a <span class='badge badge-primary'>top-level comment</span> ";
+                }
+            }
+        }
+
+        //save
+        $o.append("<li class='list-group-item' data-raw=\""+encodeURI(JSON.stringify(t))+"\">"+t+"</li>");
+    })
+
     /*
-    end code for setup modal
-    */
+   code for list
+   */
+
+    $("[data-type-btn]").click(function(){
+        var $el = $(this).closest("li.rules-item2"),
+            o = [];
+
+        if($(this).hasClass("btn-success")){
+            if($el.find("[data-type-btn].btn-success").length === 1) return false;
+                else $(this).removeClass("btn-success").addClass("btn-primary");
+        } else {
+            $(this).removeClass("btn-primary").addClass("btn-success");
+        }
+
+        $el.find("[data-type-btn].btn-success").each(function(){
+            o.push($(this).attr("data-type-btn")+"s");
+        });
+
+        console.log(o);
+        $el.find(".search-label").html(o.length < 3 ? o.join(", ") : o[0]+", "+o[1]+" and "+o[2]);
+    });
+
+    /*
+    Other
+     */
 
     $(".setup-selection").click(function(){
         $(".setup-selection").removeClass("active");
@@ -175,7 +281,10 @@ $(function(){
         $("." + cont + ":first [data-check]:first").trigger("change");
     });
 
-    $(".new-condition-modal").click(function(){ $("#modal-new-condition").modal("show"); })
+    $(".new-condition-modal").click(function(){
+        $(".finishBtn[data-btn-type=condition]").attr("data-id", $(this).closest(".rules-item2").attr("data-id"));
+        $("#modal-new-condition").modal("show");
+    });
 });
 
 function validateStep(step){
@@ -192,6 +301,14 @@ function validateStep(step){
             var v = $(".check-cont:visible").first().attr("data-type");
 
             if(v=="search"){
+                var s = false;
+
+                $("[data-selection=match] input[type=checkbox]").each(function(){
+                    if($(this).prop("checked")) s = true;
+                });
+
+                if(!s) return false;
+
                 return ($("#search-regex").prop("checked")==true)
                     ? validateField("regex", $("#search-input-regex").val())
                     : validateField("simple", $("#search-input-simple").val());
@@ -215,8 +332,6 @@ function validateStep(step){
                 var $el = $(".post-cont:visible").first(),
                     id = $el.attr("id").split("-").slice(0,-1).join("-");
 
-                console.log(id);
-
                 if(id == "post-reports" || id == "post-length")
                     return validateField("int", $("#" + id + "-value").val().trim());
                 else if(id == "post-oc" || id == "post-toplevel")
@@ -233,16 +348,18 @@ function validateField(type, val){
     var v = val.trim();
 
     if(type=="regex"){
+        console.log("here");
         if(v=="")
             return false;
         v.split(/\n/).map(Function.prototype.call, String.prototype.trim).forEach(function(a,b){
             try { new RegExp(a); } catch(e) {return false };
         });
+
+        return true;
     }
 
     else if(type=="simple"){
-        if(v=="")
-            return false;
+        return v!=="";
     }
 
     else if(type=="posint"){
@@ -253,4 +370,8 @@ function validateField(type, val){
         return Number.isInteger(parseInt(v));
     }
 
+}
+
+function s(n){
+    return parseInt(n) != 1 ? "s" : "";
 }
