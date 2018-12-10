@@ -62,39 +62,41 @@
                     <li class="list-group-item rules-item2" data-id="1">
                         <div class="d-flex justify-content-left">
 
-                            <div class="form-group">
-                                <!-- Type buttons -->
-                                <div class="btn-group">
-                                    <div class="form-control btn btn-success" data-type-btn="link"><i class="fas fa-link"></i></div>
-                                    <div class="form-control btn btn-primary" data-type-btn="post"><i class="far fa-file-alt"></i></div>
-                                    <div class="form-control btn btn-primary" data-type-btn="comment"><i class="far fa-comment"></i></div>
-                                </div>
-                            </div>
-
                             <div class="form-group col-3 title-cont">
                                 <!-- Title input -->
                                 <label class="d-block">Rule title</label>
                                 <input class="form-control rules-item-title" placeholder="Enter a descriptive title" />
                                 <small class="text-muted d-block mt-2">This is so that your rule is easy to find in your automod configuration</small>
+                                <hr />
+                                <label class="d-block">Match Against</label>
+                                <div class="btn-group">
+                                    <div class="form-control btn btn-success" data-type-btn="link"><i class="fas fa-link"></i></div>
+                                    <div class="form-control btn btn-secondary" data-type-btn="post"><i class="far fa-file-alt"></i></div>
+                                    <div class="form-control btn btn-secondary" data-type-btn="comment"><i class="far fa-comment"></i></div>
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <!-- Conditions -->
                                 <label class="d-block">Conditions</label>
-                                <small class="text-muted">Search for <span class="badge badge-primary search-label">links</span> which match <strong>all</strong> the following:</small>
-                                <ul class="rule-conditions pb-2 list-group mt-2">
+                                <small class="text-muted">Search for <span class="badge badge-primary search-label">links</span> which match <strong>all the below</strong>:</small>
+                                <ul class="rule-conditions pb-2 small mt-2">
                                 </ul>
-                                <button type="button" class="btn btn-primary btn-new new-condition-modal"><i class="fas fa-plus"></i>&nbsp;New Condition</button>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-primary btn-new btn-block btn-sm new-condition-modal"><span>New Condition&nbsp;</span><i class="float-right fas fa-plus"></i></button>
+                                </div>
                                 <small class="text-muted d-block mt-2">Add conditions that the submission must match in order to execute your specified actions</small>
                             </div>
 
                             <div class="form-group">
                                 <!-- Actions -->
                                 <label class="d-block">Actions</label>
-                                <small class="text-muted">Take the following actions on matching submissions:</small>
+                                <small class="text-muted">On a match, do the following:</small>
                                 <ul class="rule-actions pb-2 list-group mt-2">
                                 </ul>
-                                <button type="button" class="btn btn-primary btn-new"><i class="fas fa-plus"></i>&nbsp;New Action</button>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-primary btn-new btn-block btn-sm new-action-modal"><span>New Action&nbsp;</span><i class="float-right fas fa-plus"></i></button>
+                                </div>
                                 <small class="text-muted d-block mt-2">Create actions that will occur when the automoderator matches a submission</small>
                             </div>
 
@@ -115,7 +117,7 @@
         <!-- .rules -->
 
         <!-- modals -->
-        <!-- modal-new-rule -->
+        <!-- modal-new-condition -->
         <div class="modal fade" id="modal-new-condition" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -411,6 +413,119 @@
                 </div>
             </div>
         </div>
+        <!-- ./modal-new-condition -->
+
+        <!-- modal-new-action -->
+        <div class="modal fade" id="modal-new-action" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">New Action</h3>
+                    </div>
+
+                    <div class="modal-body mp-0">
+                        <!-- Steps starts here -->
+                        <div class="requestwizard">
+                            <div class="setup-panel row">
+                                <div class="requestwizard-step col-6">
+                                    <a href="#action-step-1" class="btn btn-nav btn-primary btn-circle"><i class="fas fa-th-list"></i></a>
+                                    <p class="mt-2">Choose Type</p><!-- Post Action, Message -->
+                                </div>
+                                <div class="requestwizard-step col-6">
+                                    <a href="#action-step-2" class="btn btn-nav btn-default btn-circle" disabled="disabled"><i class="fas fa-wrench"></i></a>
+                                    <p class="mt-2">Configure</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setup-content" id="action-step-1">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="setup-selection-cont col-xs-12 col-sm-6 mb-2" data-selection="moderate">
+                                            <div class="setup-selection" data-check>
+                                                <i class="fas fa-exclamation"></i>
+                                                <div class="label">Moderate</div>
+                                                <small class="label-meta">Sort, flair, and take other actions on the offending post/comment</small>
+                                            </div>
+                                        </div>
+                                        <div class="setup-selection-cont col-xs-12 col-sm-6 mb-2" data-selection="message">
+                                            <div class="setup-selection" data-check>
+                                                <i class="fas fa-envelope"></i>
+                                                <div class="label">Message</div>
+                                                <small class="label-meta">Reply to the offending submission with a comment, message, and alert modmail</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary nextBtn pull-right setup-btn" type="button" disabled>Next</button>
+                        </div>
+                    </div>
+
+                    <div class="setup-content" id="action-step-2">
+                        <div class="modal-body" data-selection-content="moderate">
+                            <div class="row">
+
+                                <ul data-cont="moderate-cont" class="col-xs-12 col-md-4 setup-overview list-group list-group-flush mb-2" id="moderate-selection">
+                                    <li data-check data-selection="moderate-action" class="list-group-item">Take Action<small class="d-block">Todo: explanation</small></li>
+                                    <li data-check data-selection="moderate-sort" class="list-group-item">Set Recommended Sort<small class="d-block">Todo: explanation</small></li>
+                                    <li data-check data-selection="moderate-flair" class="list-group-item">Set Flair<small class="d-block">Todo: explanation</small></li>
+                                </ul>
+
+                                <div class="col-xs-12 col-md-8">
+                                    <div class="check-cont" data-type="moderate">
+                                        <!-- Action -->
+                                        <div class="moderate-cont d-none" id="moderate-action-cont" data-type="moderate-action">
+                                            <label for="moderate-action">Action</label>
+                                            <div class="form-group d-block">
+                                                <select class="form-control" id="moderate-action" data-check>
+                                                    <option value="default" selected><i class="fas fa-fw fas fa-check"></i>&nbsp;No action</option>
+                                                    <option value="approve"><i class="fas fa-fw fas fa-check"></i>&nbsp;Approve</option>
+                                                    <option value="remove"><i class="fas fa-fw fas fa-trash"></i>&nbsp;Remove</option>
+                                                    <option value="spam"><i class="fas fa-fw fas fa-thumbs"></i>&nbsp;Spam</option>
+                                                    <option value="filter"><i class="fas fa-fw fas fa-filter"></i>&nbsp;Filter</option>
+                                                    <option value="report"><i class="fas fa-fw fas fa-flag"></i>&nbsp;Report</option>
+                                                </select>
+                                            </div>
+                                            <small class="form-text text-muted">Select the actions to take when a submission fulfils the logic</small>
+                                            <hr />
+                                            <label for="mdoerate-action-reason">Reason</label>
+                                            <input type="text" class="form-control" name="reason" id="mdoerate-action-reason" placeholder="Specify an action reason" data-check />
+                                            <small class="form-text text-muted">This will add a comment to the automoderator actions</small>
+                                        </div>
+
+                                        <!-- Sort -->
+                                        <div class="moderate-cont d-none" id="moderate-sort-cont">
+                                        </div>
+
+                                        <!-- Flair -->
+                                        <div class="moderate-cont d-none" id="moderate-flair-cont">
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-body" data-selection-content="message">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-success setup-btn pull-right finishBtn" data-btn-type="action" type="button" disabled>Finish</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ./modal-new-action -->
     </div>
 </body>
 </html>

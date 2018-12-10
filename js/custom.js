@@ -28,7 +28,7 @@ $(function(){
           top level only
 
     actions
-        post
+        moderate
           action
           reason
           sort
@@ -43,39 +43,72 @@ $(function(){
      code for setup modal
      */
 
-    var navListItems = $('div.setup-panel div a'),
-        allWells = $('.setup-content'),
-        allNextBtn = $('.setup-btn');
+    var navListItems_c = $('#modal-new-condition .setup-panel div a'),
+        allWells_c = $('#modal-new-condition .setup-content'),
+        allNextBtn_c = $('#modal-new-condition .setup-btn');
 
-    allWells.hide();
+    allWells_c.hide();
 
-    navListItems.click(function (e) {
+    navListItems_c.click(function (e) {
         e.preventDefault();
         var $target = $($(this).attr('href')),
             $item = $(this);
 
         if (!$item.attr('disabled')) {
-            navListItems.removeClass('btn-primary').addClass('btn-default');
+            navListItems_c.removeClass('btn-primary').addClass('btn-default');
             $item.addClass('btn-primary');
-            allWells.hide();
+            allWells_c.hide();
             $target.show();
             $target.find('input:eq(0)').focus();
         }
     });
 
-    allNextBtn.click(function(){
+    allNextBtn_c.click(function(){
         if($(this).attr("disabled")) return false;
 
         var curStep = $(this).closest(".setup-content"),
             curStepBtn = curStep.attr("id"),
-            nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+            nextStepWizard = $('#modal-new-condition .setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
             isValid = validateStep(curStepBtn);
 
         if (isValid)
             nextStepWizard.removeAttr('disabled').trigger('click');
     });
 
-    $('div.setup-panel div a.btn-primary').trigger('click');
+    var navListItems_a = $('#modal-new-action .setup-panel div a'),
+        allWells_a = $('#modal-new-action .setup-content'),
+        allNextBtn_a = $('#modal-new-action .setup-btn');
+
+    allWells_a.hide();
+
+    navListItems_a.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+            $item = $(this);
+
+        if (!$item.attr('disabled')) {
+            navListItems_a.removeClass('btn-primary').addClass('btn-default');
+            $item.addClass('btn-primary');
+            allWells_a.hide();
+            $target.show();
+            $target.find('input:eq(0)').focus();
+        }
+    });
+
+    allNextBtn_a.click(function(){
+        if($(this).attr("disabled")) return false;
+
+        var curStep = $(this).closest(".setup-content"),
+            curStepBtn = curStep.attr("id"),
+            nextStepWizard = $('#modal-new-action .setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+            isValid = validateStep(curStepBtn);
+
+        if (isValid)
+            nextStepWizard.removeAttr('disabled').trigger('click');
+    });
+
+    $('#modal-new-condition .setup-panel div a.btn-primary').trigger('click');
+    $('#modal-new-action .setup-panel div a.btn-primary').trigger('click');
     $("#search-input-regex-cont").hide();
 
     $("[data-check]").on('class-change', function(){
@@ -132,13 +165,13 @@ $(function(){
 
     $(".finishBtn:not(disabled)").click(function(){
         var type = $(this).attr("data-btn-type"),
-            $o = $(".rules-item2[data-id="+$(this).attr("data-id")+"] ul.rule-conditions"),
+            $o = $(".rules-item2[data-id="+$(this).attr("data-id")+"] ul.rule-"+$(this).attr("data-btn-type")+"s"),
             t = "",
             data = {};
 
         if(type=="condition"){
             //type
-            var type = $(".setup-selection.active").first().parent().attr("data-selection");
+            var type = $("#modal-new-condition .setup-selection.active").first().parent().attr("data-selection");
 
             if(type=="search"){
                 data.search = {};
@@ -148,7 +181,7 @@ $(function(){
                 $("[data-selection=match] input[type=checkbox]").each(function(){
                     if(($(this)).prop("checked")) data.search.matches.push($(this).attr("id").split("-")[1]);
                 });
-                t += "<span class='badge badge-primary'>" + data.search.matches.join("</span>, <span class='badge badge-primary'>") + "</span> fields which ";
+                t += "<span class='badge badge-primary'>" + data.search.matches.join("</span>, <span class='badge badge-primary'>") + "</span> ";
 
                 //matchtype/inverse/regex
                 data.search.inverse = $("#search-inverse").prop("checked");
@@ -224,10 +257,22 @@ $(function(){
                     t += "submission is a <span class='badge badge-primary'>top-level comment</span> ";
                 }
             }
+        } else if(type=="action"){
+            //types
+            var type = $("#modal-new-action .setup-selection.active").first().parent().attr("data-selection");
+
+            if(type=="post"){
+
+            }
+
+            else if(type=="message"){
+
+            }
         }
 
         //save
-        $o.append("<li class='list-group-item' data-raw=\""+encodeURI(JSON.stringify(t))+"\">"+t+"</li>");
+        $o.append("<li class='rule-condition' data-raw=\""+encodeURI(JSON.stringify(t))+"\">"+t+"</li>");
+        $("#modal-new-"+$(this).attr("data-btn-type")).modal('hide');
     })
 
     /*
@@ -240,17 +285,16 @@ $(function(){
 
         if($(this).hasClass("btn-success")){
             if($el.find("[data-type-btn].btn-success").length === 1) return false;
-                else $(this).removeClass("btn-success").addClass("btn-primary");
+                else $(this).removeClass("btn-success").addClass("btn-secondary");
         } else {
-            $(this).removeClass("btn-primary").addClass("btn-success");
+            $(this).removeClass("btn-secondary").addClass("btn-success");
         }
 
         $el.find("[data-type-btn].btn-success").each(function(){
             o.push($(this).attr("data-type-btn")+"s");
         });
 
-        console.log(o);
-        $el.find(".search-label").html(o.length < 3 ? o.join(", ") : o[0]+", "+o[1]+" and "+o[2]);
+        $el.find(".search-label").html(o.length < 3 ? o.join(" and ") : o[0]+", "+o[1]+" and "+o[2]);
     });
 
     /*
@@ -258,7 +302,7 @@ $(function(){
      */
 
     $(".setup-selection").click(function(){
-        $(".setup-selection").removeClass("active");
+        $(this).parent().parent().find(".setup-selection").removeClass("active");
         $(this).addClass("active");
         $(this).trigger('class-change');
 
@@ -283,7 +327,14 @@ $(function(){
 
     $(".new-condition-modal").click(function(){
         $(".finishBtn[data-btn-type=condition]").attr("data-id", $(this).closest(".rules-item2").attr("data-id"));
+        $("#modal-new-condition #condition-step-1").show();
         $("#modal-new-condition").modal("show");
+    });
+
+    $(".new-action-modal").click(function(){
+        $(".finishBtn[data-btn-type=action]").attr("data-id", $(this).closest(".rules-item2").attr("data-id"));
+        $("#modal-new-action #action-step-1").show();
+        $("#modal-new-action").modal("show");
     });
 });
 
@@ -295,7 +346,7 @@ function validateStep(step){
     if(type=="condition"){
         if(num==1){
             //condition-step-1
-            return $(".setup-selection.active").length > 0;
+            return $("#modal-new-condition .setup-selection.active").length > 0;
         } if(num==2){
             //condition-step-2
             var v = $(".check-cont:visible").first().attr("data-type");
@@ -341,6 +392,26 @@ function validateStep(step){
             }
         }
 
+    } else if(type=="action"){
+        if(num==1){
+            // action-step-1
+            return $("#modal-new-action .setup-selection.active").length > 0;
+        }
+
+        else if(num==2){
+            // action-step-2
+            var v = $(".check-cont:visible").first().attr("data-type");
+
+            if(v=="moderate"){
+                var $el = $(".moderate-cont:visible").first(),
+                    id = $el.attr("id").split("-").slice(0,-1).join("-");
+
+                console.log(id);
+
+                if(id == "moderate-action")
+                    return $("#moderate-action").val()!="default";
+            }
+        }
     }
 }
 
@@ -348,7 +419,6 @@ function validateField(type, val){
     var v = val.trim();
 
     if(type=="regex"){
-        console.log("here");
         if(v=="")
             return false;
         v.split(/\n/).map(Function.prototype.call, String.prototype.trim).forEach(function(a,b){

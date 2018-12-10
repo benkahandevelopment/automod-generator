@@ -229,6 +229,30 @@ select.form-control.hf {
     background: none;
     border: 1px dashed #ced4da;
     color: #ced4da;
+    line-height: 2;
+    /* text-align: right; */
+}
+
+.btn-new i { line-height: 2; }
+
+/* .btn-new :not(i){ display: none; }
+.btn-new:hover :not(i){ display: inline-block; } */
+
+ul.rule-conditions {
+    padding: 0;
+    margin: 10px 0;
+}
+
+li.rule-condition {
+    list-style: none;
+    border-left: 1px solid #ced4da;
+    line-height: 3;
+    display: block;
+    padding: 3px 5px;
+}
+
+li.rule-condition:hover {
+    background-color: rgba(0,0,0,0.05);
 }
 
 
