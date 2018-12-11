@@ -261,12 +261,68 @@ $(function(){
             //types
             var type = $("#modal-new-action .setup-selection.active").first().parent().attr("data-selection");
 
-            if(type=="post"){
+            if(type=="moderate"){
+                data.moderate = {};
 
+                //match
+                data.moderate.match = $("#moderate-selection li.active:first").attr("data-selection").split("-").slice(1).join("-");
+
+                if(data.moderate.match == "action"){
+                    data.moderate.action = $("#moderate-action").val();
+                    t += "<span class='badge badge-primary'>"+data.moderate.action+"</span> the submission ";
+                    if(validateField("simple", $("#moderate-action-reason").val())){
+                        data.moderate.reason = $("#moderate-action-reason").val();
+                        t += "with a <span class='badge badge-warning'>reason</span> ";
+                    }
+                }
+
+                else if(data.moderate.match == "sort"){
+                    data.moderate.sort = $("#moderate-sort").val();
+                    t += "set the post's suggested sort to <span class='badge badge-primary'>" + data.moderate.sort + "</span> ";
+                }
+
+                else if(data.moderate.match == "flair"){
+                    data.moderate.flair = $("#moderate-flair-text").val();
+                    if(validateField("simple", $("#moderate-flair-cssclass").val())) data.moderate.cssclass = $("#moderate-flair-cssclass").val();
+                    if(validateField("simple", $("#moderate-flair-templateid").val())) data.moderate.templateid = $("#moderate-flair-templateid").val();
+                    t += "set the flair to <span class='badge badge-primary'>"+data.moderate.flair+"</span> ";
+                }
+
+                else if(data.moderate.match == "other"){
+                    n = 0;
+                    if($("#moderate-other-sticky").prop("checked")==true) { data.moderate.sticky = true; n++; }
+                    if($("#moderate-other-nsfw").prop("checked")==true) { data.moderate.nsfw = true; n++; }
+                    if($("#moderate-other-spoiler").prop("checked")==true) { data.moderate.spoiler = true; n++; }
+                    if($("#moderate-other-contest").prop("checked")==true) { data.moderate.contest = true; n++; }
+                    if($("#moderate-other-oc").prop("checked")==true) { data.moderate.oc = true; n++; }
+                    if($("#moderate-other-locked").prop("checked")==true) { data.moderate.locked = true; n++; }
+
+                    t += "set <span class='badge badge-secondary'>"+n+"</span> post settings ";
+                }
             }
 
             else if(type=="message"){
+                data.message = {};
 
+                // match
+                data.message.match = $("#message-selection li.active:first").attr("data-selection").split("-").slice(1).join("-");
+
+                if(data.message.match == "comment"){
+                    data.message.value = $("#message-comment").val();
+                    t += "send a <span class='badge badge-primary'>comment reply</span> ";
+                }
+
+                else if(data.message.match == "message"){
+                    data.message.value = $("#message-message").val();
+                    if(validateField("simple", $("#message-message-subject").val())) data.message.subject = $("#message-message-subject").val();
+                    t += "send a <span class='badge badge-primary'>message to the user</span>";
+                }
+
+                else if(data.message.match == "modmail"){
+                    data.message.value = $("#message-modmail").val();
+                    if(validateField("simple", $("#message-modmail-subject").val())) data.message.subject = $("#message-modmail-subject").val();
+                    t += "send a <span class='badge badge-primary'>message to modmail</span>";
+                }
             }
         }
 
@@ -327,12 +383,14 @@ $(function(){
 
     $(".new-condition-modal").click(function(){
         $(".finishBtn[data-btn-type=condition]").attr("data-id", $(this).closest(".rules-item2").attr("data-id"));
+        allWells_c.hide();
         $("#modal-new-condition #condition-step-1").show();
         $("#modal-new-condition").modal("show");
     });
 
     $(".new-action-modal").click(function(){
         $(".finishBtn[data-btn-type=action]").attr("data-id", $(this).closest(".rules-item2").attr("data-id"));
+        allWells_a.hide();
         $("#modal-new-action #action-step-1").show();
         $("#modal-new-action").modal("show");
     });
@@ -406,10 +464,33 @@ function validateStep(step){
                 var $el = $(".moderate-cont:visible").first(),
                     id = $el.attr("id").split("-").slice(0,-1).join("-");
 
-                console.log(id);
-
                 if(id == "moderate-action")
                     return $("#moderate-action").val()!="default";
+                else if(id == "moderate-sort")
+                    return $("#moderate-sort").val()!="default";
+                else if(id == "moderate-flair")
+                    return validateField("simple", $("#moderate-flair-text").val());
+                else if(id == "moderate-other")
+                    return ($("#moderate-other-sticky").prop("checked") ||
+                            $("#moderate-other-nsfw").prop("checked") ||
+                            $("#moderate-other-spoiler").prop("checked") ||
+                            $("#moderate-other-contest").prop("checked") ||
+                            $("#moderate-other-oc").prop("checked") ||
+                            $("#moderate-other-locked").prop("checked"));
+                else return false;
+            }
+
+            else if(v == "message") {
+                var $el = $(".message-cont:visible").first(),
+                    id = $el.attr("id").split("-").slice(0,-1).join("-");
+
+                if(id == "message-comment")
+                    return validateField("simple", $("#message-comment").val());
+                else if(id == "message-message")
+                    return validateField("simple", $("#message-message").val());
+                else if(id == "message-modmail")
+                    return validateField("simple", $("#message-modmail").val());
+                else return false;
             }
         }
     }

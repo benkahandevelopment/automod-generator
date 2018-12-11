@@ -80,7 +80,7 @@
                                 <!-- Conditions -->
                                 <label class="d-block">Conditions</label>
                                 <small class="text-muted">Search for <span class="badge badge-primary search-label">links</span> which match <strong>all the below</strong>:</small>
-                                <ul class="rule-conditions pb-2 small mt-2">
+                                <ul class="rule-conditions pb-2 mt-2">
                                 </ul>
                                 <div class="text-center">
                                     <button type="button" class="btn btn-primary btn-new btn-block btn-sm new-condition-modal"><span>New Condition&nbsp;</span><i class="float-right fas fa-plus"></i></button>
@@ -405,7 +405,7 @@
                         </div>
                         <!-- ./Post/Comment Meta -->
 
-                        <div class="modal-footer">
+                        <div class="modal-footer" id="condition-footer">
                             <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button>
                             <button class="btn btn-success setup-btn pull-right finishBtn" data-btn-type="condition" type="button" disabled>Finish</button>
                         </div>
@@ -473,9 +473,10 @@
                             <div class="row">
 
                                 <ul data-cont="moderate-cont" class="col-xs-12 col-md-4 setup-overview list-group list-group-flush mb-2" id="moderate-selection">
-                                    <li data-check data-selection="moderate-action" class="list-group-item">Take Action<small class="d-block">Todo: explanation</small></li>
-                                    <li data-check data-selection="moderate-sort" class="list-group-item">Set Recommended Sort<small class="d-block">Todo: explanation</small></li>
-                                    <li data-check data-selection="moderate-flair" class="list-group-item">Set Flair<small class="d-block">Todo: explanation</small></li>
+                                    <li data-check data-selection="moderate-action" class="list-group-item">Take Action<small class="d-block">Remove/approve/report (etc.) the offending submission</small></li>
+                                    <li data-check data-selection="moderate-sort" class="list-group-item">Set Recommended Sort<small class="d-block">Set recommended sort (posts only)</small></li>
+                                    <li data-check data-selection="moderate-flair" class="list-group-item">Set Flair<small class="d-block">Set a custom post flair (posts only)</small></li>
+                                    <li data-check data-selection="moderate-other" class="list-group-item">Other<small class="d-block">Sticky, mark as NSFW, Spoiler, or OC, set Contest mode, or lock the post</small></li>
                                 </ul>
 
                                 <div class="col-xs-12 col-md-8">
@@ -495,19 +496,85 @@
                                             </div>
                                             <small class="form-text text-muted">Select the actions to take when a submission fulfils the logic</small>
                                             <hr />
-                                            <label for="mdoerate-action-reason">Reason</label>
-                                            <input type="text" class="form-control" name="reason" id="mdoerate-action-reason" placeholder="Specify an action reason" data-check />
+                                            <label for="moderate-action-reason">Reason</label>
+                                            <input type="text" class="form-control" name="reason" id="moderate-action-reason" placeholder="Specify an action reason" data-check />
                                             <small class="form-text text-muted">This will add a comment to the automoderator actions</small>
                                         </div>
 
                                         <!-- Sort -->
-                                        <div class="moderate-cont d-none" id="moderate-sort-cont">
+                                        <div class="moderate-cont d-none" id="moderate-sort-cont" data-type="moderate-sort">
+                                            <label for="moderate-sort">Set post suggested sort</label>
+                                            <div class="form-group d-block">
+                                                <select class="form-control" id="moderate-sort" data-check>
+                                                    <option value="default" selected>sub default</option>
+                                                    <option value="best">best</option>
+                                                    <option value="new">new</option>
+                                                    <option value="qa">qa</option>
+                                                    <option value="top">top</option>
+                                                    <option value="controversial">controversial</option>
+                                                    <option value="hot">hot</option>
+                                                    <option value="old">old</option>
+                                                    <option value="random">random</option>
+                                                </select>
+                                            </div>
+                                            <small class="form-text text-muted">This only applies to post submissions (not comments)</small>
                                         </div>
 
                                         <!-- Flair -->
-                                        <div class="moderate-cont d-none" id="moderate-flair-cont">
+                                        <div class="moderate-cont d-none" id="moderate-flair-cont" data-type="moderate-flair">
+                                            <label for="moderate-flair">Set post flair</label>
+                                            <div clas="form-group">
+                                                <input type="text" class="form-control" id="moderate-flair-text" placeholder="Flair Text" data-check>
+                                                <input type="text" class="form-control mt-1" id="moderate-flair-cssclass" placeholder="CSS Class (optional)" data-check>
+                                                <input type="text" class="form-control mt-1" id="moderate-flair-templateid" placeholder="Template ID (optional)" data-check>
+                                            </div>
+                                            <small class="form-text text-muted">This only applies to post submissions (not comments)</small>
                                         </div>
 
+                                        <!-- Other -->
+                                        <div class="moderate-cont d-none" id="moderate-other-cont" data-type="moderate-other">
+                                            <div class="check-cont bool d-flex align-items-center p-2" data-type="moderate-other-sticky">
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                                    <input type="checkbox" class="custom-control-input" id="moderate-other-sticky" data-check />
+                                                    <label class="custom-control-label" for="moderate-other-sticky">Make post sticky</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="check-cont bool d-flex align-items-center p-2" data-type="moderate-other-nsfw">
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                                    <input type="checkbox" class="custom-control-input" id="moderate-other-nsfw" data-check />
+                                                    <label class="custom-control-label" for="moderate-other-nsfw">Mark post as NSFW</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="check-cont bool d-flex align-items-center p-2" data-type="moderate-other-spoiler">
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                                    <input type="checkbox" class="custom-control-input" id="moderate-other-spoiler" data-check />
+                                                    <label class="custom-control-label" for="moderate-other-spoiler">Mark post as a spoiler</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="check-cont bool d-flex align-items-center p-2" data-type="moderate-other-contest">
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                                    <input type="checkbox" class="custom-control-input" id="moderate-other-contest" data-check />
+                                                    <label class="custom-control-label" for="moderate-other-contest">Set post to "contest" mode</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="check-cont bool d-flex align-items-center p-2" data-type="moderate-other-oc">
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                                    <input type="checkbox" class="custom-control-input" id="moderate-other-oc" data-check />
+                                                    <label class="custom-control-label" for="moderate-other-oc">Mark post as Original Content</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="check-cont bool d-flex align-items-center p-2" data-type="moderate-other-locked">
+                                                <div class="custom-control custom-checkbox custom-checkbox-inline">
+                                                    <input type="checkbox" class="custom-control-input" id="moderate-other-locked" data-check />
+                                                    <label class="custom-control-label" for="moderate-other-locked">Lock post</label>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -515,9 +582,50 @@
                         </div>
 
                         <div class="modal-body" data-selection-content="message">
+                            <div class="row">
+
+                                <ul data-cont="message-cont" class="col-xs-12 col-md-4 setup-overview list-group list-group-flush mb-2" id="message-selection">
+                                    <li data-check data-selection="message-comment" class="list-group-item">Reply with Comment<small class="d-block">Respond to the post/comment with a comment reply</small></li>
+                                    <li data-check data-selection="message-message" class="list-group-item">Reply with Message<small class="d-block">Respond to the author by sending them a message</small></li>
+                                    <li data-check data-selection="message-modmail" class="list-group-item">Send Modmail<small class="d-block">Send a message to your Modmail with details of the action</small></li>
+                                </ul>
+
+                                <div class="col-xs-12 col-md-8">
+                                    <div class="check-cont" data-type="message">
+                                        <!-- Comment -->
+                                        <div class="message-cont d-none" id="message-comment-cont" data-type="message-comment">
+                                            <label for="message-comment">Comment</label>
+                                            <div class="form-group d-block">
+                                                <textarea class="form-control" id="message-comment" placeholder="Comment response" rows=5 data-check></textarea>
+                                            </div>
+                                            <small class="form-text text-muted">Reply to matched posts/comments with a comment reply. This field accepts multi-line entry in reddit markdown</small>
+                                        </div>
+
+                                        <!-- Message -->
+                                        <div class="message-cont d-none" id="message-message-cont" data-type="message-message">
+                                            <label for="message-message">Message</label>
+                                            <div class="form-group d-block">
+                                                <input type="text" class="form-control" id="message-message-subject" placeholder="Message Subject" data-check />
+                                                <textarea class="form-control mt-1" id="message-message" placeholder="Message response" rows=5 data-check></textarea>
+                                            </div>
+                                            <small class="form-text text-muted">Send the author of the matched submission a private message. This field accepts multi-line entry in reddit markdown</small>
+                                        </div>
+
+                                        <!-- Modmail -->
+                                        <div class="message-cont d-none" id="message-modmail-cont" data-type="message-modmail">
+                                            <label for="message-modmail">Modmail</label>
+                                            <div class="form-group d-block">
+                                                <input type="text" class="form-control" id="message-modmail-subject" placeholder="Modmail Subject" data-check />
+                                                <textarea class="form-control mt-1" id="message-modmail" placeholder="Modmail message" rows=5 data-check></textarea>
+                                            </div>
+                                            <small class="form-text text-muted">Send a message to your subreddit's modmail. This field accepts multi-line entry in reddit markdown</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="modal-footer">
+                        <div class="modal-footer" id="action-footer">
                             <button type="button" class="btn btn-secondary pull-right" data-dismiss="modal">Cancel</button>
                             <button class="btn btn-success setup-btn pull-right finishBtn" data-btn-type="action" type="button" disabled>Finish</button>
                         </div>
